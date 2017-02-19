@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 '''
-author: jaseg
-fork from: https://github.com/jaseg/python-mpv
+Created on 2017-02-19
+
+@author: jaseg
+forked from: https://github.com/jaseg/python-mpv
 '''
 
 from ctypes import *
