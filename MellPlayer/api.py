@@ -3,6 +3,9 @@
 
 '''
 Netease Music API
+
+Created on 2017-02-19
+@author: Mellcap
 '''
 import requests
 import json
@@ -10,17 +13,17 @@ import json
 class Netease(object):
 
     def __init__(self):
-        self.session = requests.Session()
         self.playlist_categories = []
 
     def _request(self, url, method='GET', is_raw=False):
         '''
         对requests简单封装
         '''
+        headers = {'appver': '2.0.2', 'Referer': 'http://music.163.com'}
         if method == 'GET':
-            result = self.session.get(url)
+            result = requests.get(url, headers=headers)
         elif method == 'POST':
-            result = self.session.post(url)
+            result = requests.post(url, headers=headers)
         # 如果请求不成功，直接返回False
         if not result.ok:
             return False
@@ -30,14 +33,14 @@ class Netease(object):
             return json.loads(result.text)
         return result.text
 
-    def playlist_categories(self):
-        '''
-        分类歌单
-        http://music.163.com/discover/playlist/
-        '''
-        url = 'http://music.163.com/discover/playlist/'
-        result = self._request(url, is_raw=True)
-        return result
+    # def playlist_categories(self):
+    #     '''
+    #     分类歌单
+    #     http://music.163.com/discover/playlist/
+    #     '''
+    #     url = 'http://music.163.com/discover/playlist/'
+    #     result = self._request(url, is_raw=True)
+    #     return result
 
     def playlist_category_detail(self, category='全部', offset=0, limit=50, order='hot', total='false'):
         '''
