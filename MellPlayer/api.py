@@ -85,12 +85,29 @@ class Netease(object):
         '''
         解析信息
         '''
+        res = None
         if parse_type == 'playlist_category_detail':
-            pass
+            res = [{
+                'playlist_id': d['id'],
+                'playlist_name': d['name']
+            } for d in data['playlists']]
         elif parse_type == 'playlist_detail':
-            pass
-        elif parse_type == 'song_detail':
-            pass
+            tracks = data['result']['tracks']
+            res = [{
+                'song_id': d['id'],
+                'song_name': d['name'],
+                'song_url': d['mp3Url'],
+                'song_artists': ';'.join(map(lambda a: a['name'], d['artists']))
+            } for d in data]
         elif parse_type == 'lyric_detail':
-            pass
+            if 'lrc' in data:
+                res = {
+                    'lyric': data['lrc']['lyric']
+                }
+            elif 'nolyric' in data:
+                res = {
+                    'lyric': u'没有找到歌词'
+                }
+        return res
+                
             
