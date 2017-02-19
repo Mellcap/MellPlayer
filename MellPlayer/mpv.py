@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 '''
-Created on 2017-02-19
+Python interface to the awesome mpv media player
 
+Created on 2017-02-19
 @author: jaseg
 forked from: https://github.com/jaseg/python-mpv
 '''
