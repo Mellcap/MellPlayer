@@ -8,6 +8,7 @@ Created on 2017-02-20
 @author: Mellcap
 '''
 
+from .mpv import MPV
 
 class Player(object):
 
