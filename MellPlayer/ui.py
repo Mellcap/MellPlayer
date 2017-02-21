@@ -43,6 +43,7 @@ class UI(object):
         self.category_lines = SONG_CATEGORIES
         self.mark_line = 0
         self.play_line = 0
+        self.top_index = 0
 
     def display(self):
         display_lines = []
@@ -51,7 +52,7 @@ class UI(object):
         top_index = self.top_index
         bottom_index = self.screen_height + top_index - 3
 
-        for index, category in enumerate(self.category_lines):
+        for index, category in enumerate(self.category_lines[top_index: bottom_index]):
             # mark_line
             is_markline = True if (index + self.top_index) == self.mark_line else False
             category = self.gen_category(category, is_markline)
@@ -69,12 +70,17 @@ class UI(object):
     def gen_category(self, category, is_markline=False):
         if is_markline:
             category = self.gen_mark(category)
-            category = self.gen_color(data=category, color='')
+            category = self.gen_color(data=category, color='light_blue')
         else:
+            # fill 3 blanks
+            category = '   %s' % category
             category = self.gen_color(data=category, color='')
         return category
 
-    def gen_playline(self, play_data):
+    def gen_mark(self, category):
+        return '⇝  %s' % category
+
+    def gen_playline(self, play_data=None):
         return self.gen_color(data=play_data, color='')
 
     def gen_color(self, data, color):

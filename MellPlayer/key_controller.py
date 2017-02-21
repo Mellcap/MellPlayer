@@ -22,4 +22,4 @@ class KeyController(object):
             self.hander(key)
 
     def handler(self, key):
-        pass
+        print('key: %s' % key)
