@@ -19,6 +19,7 @@ SONG_CATEGORIES = (
 )
 
 FORE_COLOR = {         # 前景色
+    'default'  : 39,   #  默认
     'black'    : 30,   #  黑色
     'red'      : 31,   #  红色
     'green'    : 32,   #  绿色
@@ -74,7 +75,7 @@ class UI(object):
         参考地址:http://blog.csdn.net/gatieme/article/details/45439671
         但是目前用不到这么多类型，目前只用前景色
         '''
-        color_code = FORE_COLOR.get(color, 37)
+        color_code = FORE_COLOR.get(color, 39)
         data = "\033[;%s;m%s\033[0m" % (color_code, data)
         return data
 
