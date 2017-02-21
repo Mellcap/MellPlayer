@@ -10,28 +10,28 @@ Created on 2017-02-20
 
 from .mpv import MPV
 
-class Player(object):
+class Player(MPV):
 
-    def __init__(self):
-        pass
-
-    def start(self):
-        pass
-
-    def pause(self):
-        pass
+    def init_playlist(self):
+        self.loadlist('/Users/zhaoye/test_dir/test001.m3u')
 
     def start_or_pause(self):
-        pass
+        if self.pause:
+            self._set_property('pause', False)
+        else:
+            self._set_property('pause', True)
 
     def switch_song(self, action='next'):
         '''
         action: next/prev
         '''
-        pass
+        if action == 'next':
+            self.playlist_next()
+        elif action == 'prev':
+            self.playlist_prev()
 
-    def switch_playlist(self, action='next'):
-        '''
-        action: next/prev
-        '''
+    def switch_playlist(self):
+        # find playlists
+        # choose playlist != this
+        # return
         pass
