@@ -39,6 +39,7 @@ FORE_COLOR = {             # 前景色
 
 BLANK_CONSTANT = 3
 MAX_LINES = len(SONG_CATEGORIES)
+ALL_LINES = MAX_LINES + BLANK_CONSTANT
 TERMINAL_SIZE = os.get_terminal_size()
 
 class UI(object):
@@ -63,7 +64,7 @@ class UI(object):
             is_markline = True if (index + self.top_index) == self.mark_index else False
             category = self.gen_category(category, is_markline)
             # play_index
-            play_index = None
+            play_index = ''
             is_playline = True if (index + self.top_index) == self.play_index else False
             if is_playline:
                 play_index = self.gen_playline()
@@ -71,7 +72,9 @@ class UI(object):
             complete_line = '%s %s' % (category, play_index)
             display_lines.append(complete_line)
 
-        self.fill_blanks(display_lines, self.screen_height)
+        if ALL_LINES < self.screen_height:
+            # fill_blanks
+            display_lines = self.fill_blanks(display_lines)
         print('\n'.join(display_lines))
 
     def next_line(self):
@@ -103,7 +106,7 @@ class UI(object):
     def gen_mark(self, category):
         return '➤  %s' % category
 
-    def gen_playline(self, play_data=None):
+    def gen_playline(self, play_data=''):
         return self.gen_color(data=play_data, color='')
 
     def gen_color(self, data, color):
@@ -115,10 +118,9 @@ class UI(object):
         data = "\033[;%s;m%s\033[0m" % (color_code, data)
         return data
 
-    def fill_blanks(self, display_lines, screen_height):
-        display_height = len(display_lines) + BLANK_CONSTANT
-        if display_height < screen_height:
-            display_lines += ['\n' for i in range(screen_height - display_height)]
+    def fill_blanks(self, display_lines):
+        delta_lines = self.screen_height - ALL_LINES
+        display_lines += [' ' for i in range(delta_lines)]
         return display_lines
 
         
