@@ -8,6 +8,8 @@ Created on 2017-02-21
 @author: Mellcap
 '''
 
+import os
+
 
 SONG_CATEGORIES = (
     '流行', '摇滚', '民谣', '说唱', '轻音乐', '乡村', '古典', 'R&B/Soul', '电子', '另类/独立',\
@@ -19,8 +21,35 @@ SONG_CATEGORIES = (
 class UI(object):
 
     def __init__(self):
-        self.display_lines = SONG_CATEGORIES
+        self.category_lines = SONG_CATEGORIES
+        self.mark_line = 0
+        self.play_line = 0
 
     def display(self):
-        print('\n'.join(self.display_lines))
+        display_lines = []
+        terminal_size = os.get_terminal_size()
+        self.screen_height, self.screen_width = terminal_size.lines, terminal_size.columns
+        top_index = self.top_index
+        bottom_index = self.screen_height + top_index - 3
+
+        for index, category in enumerate(self.category_lines):
+            # mark_line
+            mark_line = True if self.mark_line else False
+            category = self.gen_category(index=index, category=category, mark_line=mark_line)
+            # play_line
+            play_line = self.gen_playline(index=index)
+
+            complete_line = '%s %s' % (category, play_line)
+            display_lines.append(complete_line)
+
+        print('\n'.join(display_lines))
+
+    def gen_category(self, index, category, mark_line=False):
+        pass
+
+    def gen_playline(self, index):
+        pass
+
+    def gen_color(self):
+        pass
         
