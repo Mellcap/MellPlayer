@@ -37,6 +37,9 @@ FORE_COLOR = {             # 前景色
     'light_cyan'   : 96
 }
 
+BLANK_CONSTANT = 3
+MAX_LINES = len(SONG_CATEGORIES)
+
 class UI(object):
 
     def __init__(self):
@@ -44,16 +47,19 @@ class UI(object):
         self.mark_line = 0
         self.play_line = 0
         self.top_index = 0
+        self.title = 'MellPlayer'
 
     def display(self):
         display_lines = []
+        display_lines.append('\n%s' % self.title)
         terminal_size = os.get_terminal_size()
         self.screen_height, self.screen_width = terminal_size.lines, terminal_size.columns
         top_index = self.top_index
-        bottom_index = self.screen_height + top_index - 3
+        bottom_index = (self.screen_height - BLANK_CONSTANT) + top_index
 
         for index, category in enumerate(self.category_lines[top_index: bottom_index]):
             # mark_line
+            # self.mark_line = min(self.mark_line, MAX_LINES)
             is_markline = True if (index + self.top_index) == self.mark_line else False
             category = self.gen_category(category, is_markline)
             # play_line
@@ -65,6 +71,7 @@ class UI(object):
             complete_line = '%s %s' % (category, play_line)
             display_lines.append(complete_line)
 
+        self.fill_blanks(display_lines, self.screen_height)
         print('\n'.join(display_lines))
 
     def gen_category(self, category, is_markline=False):
@@ -78,7 +85,7 @@ class UI(object):
         return category
 
     def gen_mark(self, category):
-        return '⇝  %s' % category
+        return '➤  %s' % category
 
     def gen_playline(self, play_data=None):
         return self.gen_color(data=play_data, color='')
@@ -92,6 +99,10 @@ class UI(object):
         data = "\033[;%s;m%s\033[0m" % (color_code, data)
         return data
 
-
+    def fill_blanks(self, display_lines, screen_height):
+        display_height = len(display_lines) + BLANK_CONSTANT
+        if display_height < screen_height:
+            display_lines += ['\n' for i in range(screen_height - display_height)]
+        return display_lines
 
         
