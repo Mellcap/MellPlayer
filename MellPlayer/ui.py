@@ -18,16 +18,23 @@ SONG_CATEGORIES = (
     '怀旧', '清新', '浪漫', '性感', '治愈', '放松', '兴奋', '快乐', '安静', '思念'
 )
 
-FORE_COLOR = {         # 前景色
-    'default'  : 39,   #  默认
-    'black'    : 30,   #  黑色
-    'red'      : 31,   #  红色
-    'green'    : 32,   #  绿色
-    'yellow'   : 33,   #  黄色
-    'blue'     : 34,   #  蓝色
-    'purple'   : 35,   #  紫红色
-    'cyan'     : 36,   #  青蓝色
-    'white'    : 37,   #  白色
+FORE_COLOR = {             # 前景色
+    'default'      : 39,   #  默认
+    'black'        : 30,   #  黑色
+    'red'          : 31,   #  红色
+    'green'        : 32,   #  绿色
+    'yellow'       : 33,   #  黄色
+    'blue'         : 34,   #  蓝色
+    'purple'       : 35,   #  紫红色
+    'cyan'         : 36,   #  青蓝色
+    'white'        : 37,   #  白色
+    'grey'         : 90,
+    'light_red'    : 91,
+    'light_green'  : 92,
+    'light_yellow' : 93,
+    'light_blue'   : 94,
+    'light_magenta': 95,
+    'light_cyan'   : 96
 }
 
 class UI(object):
