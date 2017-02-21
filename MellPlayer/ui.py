@@ -18,6 +18,17 @@ SONG_CATEGORIES = (
     '怀旧', '清新', '浪漫', '性感', '治愈', '放松', '兴奋', '快乐', '安静', '思念'
 )
 
+FORE_COLOR = {         # 前景色
+    'black'    : 30,   #  黑色
+    'red'      : 31,   #  红色
+    'green'    : 32,   #  绿色
+    'yellow'   : 33,   #  黄色
+    'blue'     : 34,   #  蓝色
+    'purple'   : 35,   #  紫红色
+    'cyan'     : 36,   #  青蓝色
+    'white'    : 37,   #  白色
+}
+
 class UI(object):
 
     def __init__(self):
@@ -59,5 +70,14 @@ class UI(object):
         return self.gen_color(data=play_data, color='')
 
     def gen_color(self, data, color):
-        pass
+        '''
+        参考地址:http://blog.csdn.net/gatieme/article/details/45439671
+        但是目前用不到这么多类型，目前只用前景色
+        '''
+        color_code = FORE_COLOR.get(color, 37)
+        data = "\033[;%s;m%s\033[0m" % (color_code, data)
+        return data
+
+
+
         
