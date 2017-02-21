@@ -56,6 +56,21 @@ def handler_play():
 def handler_next_song():
     pass
 
+def handler_prev_song():
+    pass
+
+def handler_next_playlist():
+    pass
+
+def handler_prev_playlist():
+    pass
+
+def handler_lyric():
+    pass
+
+def handler_help():
+    pass
+
 if __name__ == '__main__':
     mell_ui.display()
     watch_key()
