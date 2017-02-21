@@ -12,11 +12,20 @@ import getch
 import ui
 
 CONFIG = {
+    # 主页
     'q': 'quit',
     'j': 'next_line',
     'k': 'prev_line',
+    # 音乐
     ' ': 'play',
-    
+    'n': 'next_song',
+    'p': 'prev_song',
+    'f': 'next_playlist',
+    'b': 'prev_playlist',
+    # 歌词
+    'l': 'lyric',
+    # 帮组
+    'h': 'help'
 }
 
 
@@ -43,6 +52,9 @@ def handler_prev_line():
 
 def handler_play():
     print('Start Playing...')
+
+def handler_next_song():
+    pass
 
 if __name__ == '__main__':
     mell_ui.display()
