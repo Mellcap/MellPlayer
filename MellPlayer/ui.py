@@ -34,22 +34,30 @@ class UI(object):
 
         for index, category in enumerate(self.category_lines):
             # mark_line
-            mark_line = True if self.mark_line else False
-            category = self.gen_category(index=index, category=category, mark_line=mark_line)
+            is_markline = True if (index + self.top_index) == self.mark_line else False
+            category = self.gen_category(category, is_markline)
             # play_line
-            play_line = self.gen_playline(index=index)
+            play_line = None
+            is_playline = True if (index + self.top_index) == self.play_line else False
+            if is_playline:
+                play_line = self.gen_playline()
 
             complete_line = '%s %s' % (category, play_line)
             display_lines.append(complete_line)
 
         print('\n'.join(display_lines))
 
-    def gen_category(self, index, category, mark_line=False):
-        pass
+    def gen_category(self, category, is_markline=False):
+        if is_markline:
+            category = self.gen_mark(category)
+            category = self.gen_color(data=category, color='')
+        else:
+            category = self.gen_color(data=category, color='')
+        return category
 
-    def gen_playline(self, index):
-        pass
+    def gen_playline(self, play_data):
+        return self.gen_color(data=play_data, color='')
 
-    def gen_color(self):
+    def gen_color(self, data, color):
         pass
         
