@@ -39,40 +39,56 @@ FORE_COLOR = {             # 前景色
 
 BLANK_CONSTANT = 3
 MAX_LINES = len(SONG_CATEGORIES)
+TERMINAL_SIZE = os.get_terminal_size()
 
 class UI(object):
 
     def __init__(self):
         self.category_lines = SONG_CATEGORIES
-        self.mark_line = 0
-        self.play_line = 0
+        self.mark_index = 0
+        self.play_index= 0
         self.top_index = 0
+        self.screen_height = TERMINAL_SIZE.lines
+        self.screen_width = TERMINAL_SIZE.columns
         self.title = 'MellPlayer'
 
     def display(self):
         display_lines = []
         display_lines.append('\n%s' % self.title)
-        terminal_size = os.get_terminal_size()
-        self.screen_height, self.screen_width = terminal_size.lines, terminal_size.columns
         top_index = self.top_index
         bottom_index = (self.screen_height - BLANK_CONSTANT) + top_index
 
         for index, category in enumerate(self.category_lines[top_index: bottom_index]):
-            # mark_line
-            # self.mark_line = min(self.mark_line, MAX_LINES)
-            is_markline = True if (index + self.top_index) == self.mark_line else False
+            # mark_index            
+            is_markline = True if (index + self.top_index) == self.mark_index else False
             category = self.gen_category(category, is_markline)
-            # play_line
-            play_line = None
-            is_playline = True if (index + self.top_index) == self.play_line else False
+            # play_index
+            play_index = None
+            is_playline = True if (index + self.top_index) == self.play_index else False
             if is_playline:
-                play_line = self.gen_playline()
+                play_index = self.gen_playline()
 
-            complete_line = '%s %s' % (category, play_line)
+            complete_line = '%s %s' % (category, play_index)
             display_lines.append(complete_line)
 
         self.fill_blanks(display_lines, self.screen_height)
         print('\n'.join(display_lines))
+
+    def next_line(self):
+        if self.mark_index < (MAX_LINES - 1):
+            self.mark_index += 1
+            bottom_index = (self.screen_height - BLANK_CONSTANT) + self.top_index
+            if self.mark_index > (bottom_index - 1):
+                self.top_index += 1
+        self.display()
+
+    def prev_line(self):
+        if self.mark_index > 0:
+            self.mark_index -= 1
+            if self.mark_index < self.top_index:
+                self.top_index -= 1
+        self.display()
+        
 
     def gen_category(self, category, is_markline=False):
         if is_markline:
