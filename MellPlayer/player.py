@@ -19,7 +19,7 @@ class Player(MPV):
         self.playlist = None
 
     def init_playlist(self):
-        self.loadlist('/Users/zhaoye/test_dir/test001.m3u')
+        self.loadlist('~/.MellPlayer/playlist.m3u')
 
     def start_or_pause(self):
         if self.pause:
@@ -55,6 +55,18 @@ class Player(MPV):
         data = Netease.playlist_detail(playlist_id)
         playlist_detail = Netease.parse_info(data=data, parse_type='playlist_detail')
         return playlist_detail
-        
+
+    def save_playlist(self, playlist_detail):
+        playlist = []
+        m3u_title = '#EXTM3U\n'
+        playlist.append(m3u_title)
+        for song in playlist_detail:
+            song_detail = '#EXTINF:,%s\n%s' % (song['song_id'], song['song_url'])
+            playlist.append(song_detail)
+        with open('~/.MellPlayer/playlist.m3u', 'w') as f:
+            for line in playlist:
+                f.write(line)
+
+        return True
             
             
