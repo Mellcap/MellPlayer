@@ -43,10 +43,10 @@ class Netease(object):
     #     result = self._request(url, is_raw=True)
     #     return result
 
-    def playlist_category_detail(self, category='全部', offset=0, limit=50, order='hot', total='false'):
+    def category_playlists(self, category='流行', offset=0, limit=50, order='hot', total='false'):
         '''
         分类详情
-        http://music.163.com/api/playlist/list?cat=全部&order=hot&offset=0&total=false&limit=50
+        http://music.163.com/api/playlist/list?cat=流行&order=hot&offset=0&total=false&limit=50
         '''
         url = 'http://music.163.com/api/playlist/list?cat=%s&order=%s&offset=%s&total=%s&limit=%s' % (category, order, offset, total, limit)
         result = self._request(url, is_raw=True)
@@ -87,7 +87,7 @@ class Netease(object):
         解析信息
         '''
         res = None
-        if parse_type == 'playlist_category_detail':
+        if parse_type == 'category_playlists':
             res = [{
                 'playlist_id': d['id'],
                 'playlist_name': d['name']
@@ -98,7 +98,7 @@ class Netease(object):
                 'song_id': d['id'],
                 'song_name': d['name'],
                 'song_url': d['mp3Url'],
-                'song_artists': ';'.join(map(lambda a: a['name'], d['artists']))
+                'song_artists': ' & '.join(map(lambda a: a['name'], d['artists']))
             } for d in tracks]
         elif parse_type == 'lyric_detail':
             if 'lrc' in data:
