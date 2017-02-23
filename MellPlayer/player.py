@@ -33,10 +33,7 @@ class Player(MPV):
             self.loadlist(PLAYLIST_FILE)
 
     def start_or_pause(self):
-        if self.pause:
-            self._set_property('pause', False)
-        else:
-            self._set_property('pause', True)
+        self.pause = not self.pause
 
     def loop_playlist(self):
         self._set_property('loop', True)
@@ -122,5 +119,10 @@ class Player(MPV):
         self.get_playlist()
         self.save_playlist()
         self.init_playlist()
+
+
+    # get values
+    def position(self):
+        return self.percent_pos
             
             
