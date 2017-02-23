@@ -10,6 +10,8 @@ Created on 2017-02-21
 
 import getch
 import ui
+import player
+from directory import create_directory
 
 CONFIG = {
     # 主页
@@ -24,12 +26,13 @@ CONFIG = {
     'b': 'prev_playlist',
     # 歌词
     'l': 'lyric',
-    # 帮组
+    # 帮助
     'h': 'help'
 }
 
 
 mell_ui = ui.UI()
+mell_player = player.Player()
 
 def watch_key():
     while 1:
@@ -74,4 +77,14 @@ def handler_help():
 if __name__ == '__main__':
     mell_ui.display()
     watch_key()
+    create_directory()
+    mell_player.category = '流行'
+    mell_player.get_category_playlists()
+    mell_player.get_playlist()
+    mell_player.save_playlist()
+    mell_player.init_playlist()
+
+
+
+    
 
