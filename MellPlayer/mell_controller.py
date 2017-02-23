@@ -37,6 +37,7 @@ mell_player = player.Player()
 def watch_key():
     while 1:
         key = getch.getch()
+        # print('key:%s' % key)
         action = CONFIG.get(key, None)
         if action == 'quit':
             break

@@ -29,6 +29,7 @@ class Player(MPV):
 
     def init_playlist(self):
         if os.path.exists(PLAYLIST_FILE):
+            # print('playlist: %s' % PLAYLIST_FILE)
             self.loadlist(PLAYLIST_FILE)
 
     def start_or_pause(self):
@@ -63,6 +64,14 @@ class Player(MPV):
             self.next_playlist()
         elif action == 'prev':
             self.prev_playlist()
+
+    def switch_category(self, new_category):
+        if new_category == self.category:
+            self.start_or_pause()
+        else:
+            self.category = new_category
+            self.get_category_playlists()
+            self.run_playlist()
     
     def next_playlist(self):
         category_playlists = self.category_playlists
@@ -75,7 +84,7 @@ class Player(MPV):
     def prev_playlist(self):
         category_playlists = self.category_playlists
         if category_playlists:
-            self.category_playlist_index -= 1:
+            self.category_playlist_index -= 1
             if self.category_playlist_index < 0:
                 self.category_playlist_index = self.playlist_count - 1
             self.run_playlist()
