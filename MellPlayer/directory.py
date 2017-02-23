@@ -10,8 +10,10 @@ Created on 2017-02-23
 
 import os
 
-DIRECTORY = '~/.MellPlayer'
+BASE_DIRECTORY = os.path.join(os.path.expanduser('~'), '.MellPlayer')
 
-def create_directory(directory):
+def create_directory(directory=None):
+    if not directory:
+        directory = BASE_DIRECTORY
     if not os.path.exists(directory):
         os.makedirs(directory)
