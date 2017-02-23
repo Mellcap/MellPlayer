@@ -80,9 +80,7 @@ if __name__ == '__main__':
     create_directory()
     mell_player.category = '流行'
     mell_player.get_category_playlists()
-    mell_player.get_playlist()
-    mell_player.save_playlist()
-    mell_player.init_playlist()
+    mell_player.run_playlist()
 
 
 

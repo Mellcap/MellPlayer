@@ -88,10 +88,11 @@ class Netease(object):
         '''
         res = None
         if parse_type == 'category_playlists':
-            res = [{
-                'playlist_id': d['id'],
-                'playlist_name': d['name']
-            } for d in data['playlists']]
+            res = [d['id'] for d in data['playlists']]
+            # res = [{
+            #     'playlist_id': d['id'],
+            #     'playlist_name': d['name']
+            # } for d in data['playlists']]
         elif parse_type == 'playlist_detail':
             tracks = data['result']['tracks']
             res = [{
