@@ -8,6 +8,9 @@ Created on 2017-02-21
 @author: Mellcap
 '''
 
+import threading
+import time
+
 import getch
 import ui
 import player
@@ -30,9 +33,16 @@ CONFIG = {
     'h': 'help'
 }
 
+def my_log(loglevel, component, message):
+    if loglevel == 'error':
+        print('>>>>> I got an error')
+        # print('>>>>> player: %s' % mell_player.playlist)
+        # mell_player.pause = True
+        # mell_player.next_song()
+    print('[{}] {}: {}'.format(loglevel, component, message))
 
 mell_ui = ui.UI()
-mell_player = player.Player()
+mell_player = player.Player(log_handler=my_log, ytdl=True)
 
 def watch_key():
     while 1:
@@ -75,13 +85,30 @@ def handler_lyric():
 def handler_help():
     pass
 
+def run():
+    p = '/Users/zhaoye/.MellPlayer/playlist.m3u'
+    mell_player.loadlist(p)
+    mell_player.wait_for_playback()
+    print('wait 5 seconds')
+    time.sleep(5)
+    mell_player.pause = True
+    print('wait another 5 seconds')
+    time.sleep(5)
+    mell_player.pause = False
+
+
 if __name__ == '__main__':
-    mell_ui.display()
-    watch_key()
-    create_directory()
-    mell_player.category = '流行'
-    mell_player.get_category_playlists()
-    mell_player.run_playlist()
+    # mell_ui.display()
+    # watch_key()
+    # create_directory()
+    # mell_player.category = '流行'
+    # mell_player.get_category_playlists()
+    # mell_player.run_playlist()
+    t = threading.Thread(target=run)
+    t.start()
+
+    # mell_player.playlist_next()
+
 
 
 
