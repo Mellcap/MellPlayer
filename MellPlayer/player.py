@@ -160,7 +160,9 @@ class Player(MPV):
 
 
     # get values
-    def position(self):
-        return self.percent_pos
-            
+    # def time_pos(self):
+    #     return self.time_pos
+
+    # def time_remaining(self):
+    #     return self.time_remaining
             
