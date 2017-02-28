@@ -23,7 +23,7 @@ CONFIG = {
     'j': 'next_line',
     'k': 'prev_line',
     # 音乐
-    ' ': 'play',
+    ' ': 'space',
     'n': 'next_song',
     'p': 'prev_song',
     'f': 'next_playlist',
@@ -33,6 +33,7 @@ CONFIG = {
     # 帮助
     'h': 'help'
 }
+SONG_CATEGORIES = ui.SONG_CATEGORIES
 
 def my_log(loglevel, component, message):
     if loglevel == 'error':
@@ -76,6 +77,14 @@ def key_watcher():
     t1.join()
     t2.join()
 
+def handler_space():
+    current_category = SONG_CATEGORIES[mell_ui.mark_index]
+    if mell_player.category == current_category:
+        handler_play()
+    else:
+        mell_player.category = current_category
+        mell_player.get_category_playlists()
+        mell_player.run_playlist()
 
 def handler_next_line():
     mell_ui.next_line()
@@ -105,7 +114,8 @@ def handler_help():
     pass
 
 def initial_player():
-    mell_player.category = '流行'
+    current_category = SONG_CATEGORIES[mell_ui.mark_index]
+    mell_player.category = current_category
     mell_player.get_category_playlists()
     mell_player.run_playlist()
 
