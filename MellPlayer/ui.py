@@ -48,6 +48,7 @@ class UI(object):
         self.category_lines = SONG_CATEGORIES
         self.mark_index = 0
         self.play_index= 0
+        self.play_info = ''
         self.top_index = 0
         self.screen_height = TERMINAL_SIZE.lines
         self.screen_width = TERMINAL_SIZE.columns
@@ -68,12 +69,12 @@ class UI(object):
             is_markline = True if (index + self.top_index) == self.mark_index else False
             category = self.gen_category(category, is_markline)
             # play_index
-            play_index = ''
+            play_info = ''
             is_playline = True if (index + self.top_index) == self.play_index else False
             if is_playline:
-                play_index = self.gen_playline()
+                play_info = self.gen_playline()
 
-            complete_line = '%s %s\r' % (category, play_index)
+            complete_line = '%s %s\r' % (category, play_info)
             display_lines.append(complete_line)
 
         if ALL_LINES < self.screen_height:
@@ -95,8 +96,15 @@ class UI(object):
             if self.mark_index < self.top_index:
                 self.top_index -= 1
         self.display()
-        
 
+    def update_play_index(self):
+        self.play_index = self.mark_index
+        self.display()
+
+    def update_play_info(self, play_info):
+        self.play_info = play_info
+        self.display()
+        
     def gen_category(self, category, is_markline=False):
         if is_markline:
             category = self.gen_mark(category)
@@ -110,8 +118,8 @@ class UI(object):
     def gen_mark(self, category):
         return '➤  %s' % category
 
-    def gen_playline(self, play_data=''):
-        return self.gen_color(data=play_data, color='')
+    def gen_playline(self):
+        return self.gen_color(data=self.play_info, color='')
 
     def gen_color(self, data, color):
         '''

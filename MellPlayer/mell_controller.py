@@ -36,9 +36,10 @@ CONFIG = {
 SONG_CATEGORIES = ui.SONG_CATEGORIES
 
 def my_log(loglevel, component, message):
-    if loglevel == 'error':
-        handler_next_song()
-    print('[{}] {}: {}\r'.format(loglevel, component, message))
+    # if loglevel == 'error':
+    #     handler_next_song()
+    # print('[{}] {}: {}\r'.format(loglevel, component, message))
+    pass
 
 mell_ui = ui.UI()
 mell_player = player.Player(log_handler=my_log, ytdl=True)
@@ -82,6 +83,9 @@ def handler_space():
     if mell_player.category == current_category:
         handler_play()
     else:
+        # change UI play_index
+        mell_ui.update_play_index()
+        # change playlist category
         mell_player.category = current_category
         mell_player.get_category_playlists()
         mell_player.run_playlist()
@@ -97,9 +101,11 @@ def handler_play():
 
 def handler_next_song():
     mell_player.next_song()
+    handler_update_playInfo()
 
 def handler_prev_song():
     mell_player.prev_song()
+    handler_update_playInfo()
 
 def handler_next_playlist():
     mell_player.next_playlist()
@@ -113,11 +119,16 @@ def handler_lyric():
 def handler_help():
     pass
 
+def handler_update_playInfo():
+    play_info = mell_player.get_play_info()
+    mell_ui.update_play_info(play_info)
+
 def initial_player():
     current_category = SONG_CATEGORIES[mell_ui.mark_index]
     mell_player.category = current_category
     mell_player.get_category_playlists()
     mell_player.run_playlist()
+    handler_update_playInfo()
 
 def run_player():
     t = threading.Thread(target=initial_player)

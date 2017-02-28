@@ -120,6 +120,18 @@ class Player(MPV):
         self.playlist_list = playlist_list
         self.playlist_detail = playlist_detail
 
+    def get_play_info(self):
+        play_info = ''
+        if self.playlist_list and self.playlist_detail:
+            play_detail = self.playlist_detail.get(self.playlist_list[self.playlist_index], None)
+            if play_detail:
+                song_name = play_detail.get('song_name', None)
+                song_artists = play_detail.get('song_artists', None)
+                if song_name and song_artists:
+                    play_info = ' • '.join([song_name, song_artists])
+        return play_info
+            
+
     # def save_playlist(self):
     #     playlist = []
     #     m3u_title = '#EXTM3U\n'
