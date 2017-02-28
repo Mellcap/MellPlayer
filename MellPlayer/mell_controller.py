@@ -36,8 +36,8 @@ CONFIG = {
 
 def my_log(loglevel, component, message):
     if loglevel == 'error':
-        print('>>>>> I got an error')
-    print('[{}] {}: {}'.format(loglevel, component, message))
+        handler_next_song()
+    print('[{}] {}: {}\r'.format(loglevel, component, message))
 
 mell_ui = ui.UI()
 mell_player = player.Player(log_handler=my_log, ytdl=True)
@@ -87,10 +87,10 @@ def handler_play():
     print('Start Playing...')
 
 def handler_next_song():
-    pass
+    mell_player.next_song()
 
 def handler_prev_song():
-    pass
+    mell_player.prev_song()
 
 def handler_next_playlist():
     pass
@@ -104,30 +104,20 @@ def handler_lyric():
 def handler_help():
     pass
 
-# def run():
-#     p = '/Users/zhaoye/.MellPlayer/playlist.m3u'
-#     mell_player.loadlist(p)
-#     mell_player.wait_for_playback()
-#     print('wait 5 seconds')
-#     time.sleep(5)
-#     mell_player.pause = True
-#     print('wait another 5 seconds')
-#     time.sleep(5)
-#     mell_player.pause = False
-#     print('wait another 5 seconds')
-#     time.sleep(5)
-#     mell_player.play('http://m2.music.126.net/LJOP6drGL9Vo2cmkjbFazQ==/3393092919088491.mp3')
+def initial_player():
+    mell_player.category = '流行'
+    mell_player.get_category_playlists()
+    mell_player.run_playlist()
 
+def run_player():
+    t = threading.Thread(target=initial_player)
+    t.start()
 
 if __name__ == '__main__':
     mell_ui.display()
+    run_player()
     key_watcher()
-    # create_directory()
-    # mell_player.category = '流行'
-    # mell_player.get_category_playlists()
-    # mell_player.run_playlist()
-    # t = threading.Thread(target=run)
-    # t.start()
+
 
     
 

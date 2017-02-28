@@ -64,7 +64,7 @@ class Player(MPV):
     def prev_song(self):
         # self.playlist_prev()
         playlist_list = self.playlist_list
-        if playlist_index:
+        if playlist_list:
             self.playlist_index -= 1
             if self.playlist_index < 0:
                 self.playlist_index = len(self.playlist_list) - 1
