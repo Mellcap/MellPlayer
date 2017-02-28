@@ -44,20 +44,23 @@ class UI(object):
         self.top_index = 0
         self.screen_height = TERMINAL_SIZE.lines
         self.screen_width = TERMINAL_SIZE.columns
-        self.title = self._get_title()
+        self.time_remain = ''
 
     def _get_title(self):
         player_name = '\033[1m%s' % self.gen_color('MellPlayer', 'blue')
         netease = self.gen_color('网易云音乐', 'red')
         divider = self.gen_color(data=r'\\', color='')
-        return (' %s ' % divider).join([player_name, netease])
+        display_items = [player_name, netease]
+        if self.time_remain:
+            display_items.append(self.time_remain)
+        return (' %s ' % divider).join(display_items)
 
     def display(self):
         '''
         说明：多线程终端输出有问题，在每行结尾加\r
         '''
         display_lines = ['\r']
-        display_title = '\n%s%s\r' % (' '*5, self.gen_color(self.title, 'blue'))
+        display_title = '\n%s%s\r' % (' '*5, self._get_title())
         display_lines.append(display_title)
         top_index = self.top_index
         bottom_index = (self.screen_height - BLANK_CONSTANT) + top_index

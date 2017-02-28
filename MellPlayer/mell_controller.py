@@ -50,6 +50,7 @@ def watcher():
         key = getch.getch()
         q.put(key)
         if key == 'q':
+            mell_player.is_quit = True
             break
 
 def executor():
@@ -75,8 +76,8 @@ def key_watcher():
 
     t1.start()
     t2.start()
-    t1.join()
-    t2.join()
+    # t1.join()
+    # t2.join()
 
 def handler_space():
     current_category = SONG_CATEGORIES[mell_ui.mark_index]
@@ -126,6 +127,24 @@ def handler_update_playInfo():
     play_info = mell_player.get_play_info()
     mell_ui.update_play_info(play_info)
 
+def time_remain():
+    while not mell_player.is_quit:
+        time_remain = mell_player.time_remaining
+        if time_remain:
+            if time_remain <= 1:
+                handler_next_song()
+            m, s = divmod(time_remain, 60)
+            time_remain = '%02d:%02d' % (m, s)
+            if mell_ui.time_remain != time_remain:
+                mell_ui.time_remain = time_remain
+                mell_ui.display()
+        time.sleep(1)
+            
+
+def time_watcher():
+    tw = threading.Thread(target=time_remain)
+    tw.start()
+
 def initial_player():
     current_category = SONG_CATEGORIES[mell_ui.mark_index]
     mell_player.category = current_category
@@ -140,6 +159,7 @@ def run_player():
 if __name__ == '__main__':
     mell_ui.display()
     run_player()
+    time_watcher()
     key_watcher()
 
 

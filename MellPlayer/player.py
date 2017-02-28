@@ -9,6 +9,8 @@ Created on 2017-02-20
 '''
 
 import os
+import time
+import threading
 
 from mpv import MPV
 from api import Netease
@@ -28,6 +30,7 @@ class Player(MPV):
         self.playlist_list = None
         self.playlist_index = 0
         self.playlist_detail = None
+        self.is_quit = False
 
     def init_playlist(self):
         '''
@@ -149,7 +152,7 @@ class Player(MPV):
         self.playlist_index = 0
         self.get_playlist()
         self.init_player()
-
+            
     def init_player(self):
         if self.playlist_detail and self.playlist_list:
             song_info = self.playlist_detail.get(self.playlist_list[self.playlist_index], None)
@@ -157,8 +160,7 @@ class Player(MPV):
                 song_url = song_info.get('song_url', None)
                 if song_url:
                     self.play(song_url)
-
-
+        
     # get values
     # def time_pos(self):
     #     return self.time_pos
