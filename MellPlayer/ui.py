@@ -20,11 +20,12 @@ SONG_CATEGORIES = (
 
 # 所有颜色 https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
 FORE_COLOR = {              # 前景色
-    'default'      : 246,   #  默认
-    'blue'         : 33,    
+    'default'      : 249,   #  默认
+    'blue'         : 39,    
     'green'        : 34,
     'gray'         : 239,
-    'red'          : 161,
+    'red'          : 196,
+    'pink'         : 201
 
 }
 
@@ -50,7 +51,7 @@ class UI(object):
         说明：多线程终端输出有问题，在每行结尾加\r
         '''
         display_lines = ['\r']
-        display_title = '\n%s%s\r' % (' '*5, self.gen_color(self.title, 'blue'))
+        display_title = '\n%s\033[1m%s\r' % (' '*5, self.gen_color(self.title, 'blue'))
         display_lines.append(display_title)
         top_index = self.top_index
         bottom_index = (self.screen_height - BLANK_CONSTANT) + top_index
@@ -99,7 +100,7 @@ class UI(object):
     def gen_category(self, category, is_markline=False):
         if is_markline:
             category = self.gen_mark(category)
-            category = self.gen_color(data=category, color='green')
+            category = self.gen_color(data=category, color='pink')
         else:
             # fill 3 blanks
             category = '%s%s' % (' '*5, category)
@@ -110,7 +111,9 @@ class UI(object):
         return '  ➣  %s' % category
 
     def gen_playline(self):
-        return self.gen_color(data=self.play_info, color='')
+        complete_info = [self.gen_color(data=p, color='pink') for p in self.play_info]
+        divider = self.gen_color(data='|', color='')
+        return ('  %s  ' % divider).join(complete_info)
 
     def gen_color(self, data, color):
         '''

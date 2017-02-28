@@ -128,7 +128,7 @@ class Player(MPV):
                 song_name = play_detail.get('song_name', None)
                 song_artists = play_detail.get('song_artists', None)
                 if song_name and song_artists:
-                    play_info = ' • '.join([song_name, song_artists])
+                    play_info = [song_name, song_artists]
         return play_info
             
 
