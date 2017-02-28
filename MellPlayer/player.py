@@ -134,6 +134,7 @@ class Player(MPV):
     #     return True
 
     def run_playlist(self):
+        self.playlist_index = 0
         self.get_playlist()
         self.init_player()
 

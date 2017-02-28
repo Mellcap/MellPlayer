@@ -84,7 +84,7 @@ def handler_prev_line():
     mell_ui.prev_line()
 
 def handler_play():
-    print('Start Playing...')
+    mell_player.start_or_pause()
 
 def handler_next_song():
     mell_player.next_song()
@@ -93,10 +93,10 @@ def handler_prev_song():
     mell_player.prev_song()
 
 def handler_next_playlist():
-    pass
+    mell_player.next_playlist()
 
 def handler_prev_playlist():
-    pass
+    mell_player.prev_playlist()
 
 def handler_lyric():
     pass
