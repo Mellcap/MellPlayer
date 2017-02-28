@@ -25,9 +25,14 @@ class Player(MPV):
         self.category = None
         self.category_playlists = None
         self.category_playlist_index = 0
+        self.playlist_list = None
+        self.playlist_index = 0
         self.playlist_detail = None
 
     def init_playlist(self):
+        '''
+        playlist会发生闪退现象，暂时自己控制播放列表
+        '''
         if os.path.exists(PLAYLIST_FILE):
             # print('playlist: %s' % PLAYLIST_FILE)
             self.loadlist(PLAYLIST_FILE)
@@ -48,10 +53,22 @@ class Player(MPV):
             self.playlist_prev()
 
     def next_song(self):
-        self.playlist_next()
+        # self.playlist_next()
+        playlist_list = self.playlist_list
+        if playlist_list:
+            self.playlist_index += 1
+            if self.playlist_index >= len(playlist_list):
+                self.playlist_index = 0
+            self.init_player()
 
     def prev_song(self):
-        self.playlist_prev()
+        # self.playlist_prev()
+        playlist_list = self.playlist_list
+        if playlist_index:
+            self.playlist_index -= 1
+            if self.playlist_index < 0:
+                self.playlist_index = len(self.playlist_list) - 1
+            self.init_player()
 
     def switch_playlist(self):
         '''
@@ -74,7 +91,7 @@ class Player(MPV):
         category_playlists = self.category_playlists
         if category_playlists:
             self.category_playlist_index += 1
-            if self.category_playlist_index >= self.playlist_count:
+            if self.category_playlist_index >= len(self.category_playlists):
                 self.category_playlist_index = 0
             self.run_playlist()
 
@@ -83,7 +100,7 @@ class Player(MPV):
         if category_playlists:
             self.category_playlist_index -= 1
             if self.category_playlist_index < 0:
-                self.category_playlist_index = self.playlist_count - 1
+                self.category_playlist_index = len(self.category_playlists) - 1
             self.run_playlist()
 
     def get_category_playlists(self):
@@ -99,26 +116,34 @@ class Player(MPV):
     def get_playlist(self):
         playlist_id = self.category_playlists[self.category_playlist_index]
         data = NeteaseApi.playlist_detail(playlist_id)
-        playlist_detail = NeteaseApi.parse_info(data=data, parse_type='playlist_detail')
+        playlist_list, playlist_detail = NeteaseApi.parse_info(data=data, parse_type='playlist_detail')
+        self.playlist_list = playlist_list
         self.playlist_detail = playlist_detail
 
-    def save_playlist(self):
-        playlist = []
-        m3u_title = '#EXTM3U\n'
-        playlist.append(m3u_title)
-        for song in self.playlist_detail:
-            song_detail = '#EXTINF:,%s\n%s\n' % (song['song_id'], song['song_url'])
-            playlist.append(song_detail)
-        with open(PLAYLIST_FILE, 'w') as f:
-            for line in playlist:
-                f.write(line)
+    # def save_playlist(self):
+    #     playlist = []
+    #     m3u_title = '#EXTM3U\n'
+    #     playlist.append(m3u_title)
+    #     for song in self.playlist_detail:
+    #         song_detail = '#EXTINF:,%s\n%s\n' % (song['song_id'], song['song_url'])
+    #         playlist.append(song_detail)
+    #     with open(PLAYLIST_FILE, 'w') as f:
+    #         for line in playlist:
+    #             f.write(line)
 
-        return True
+    #     return True
 
     def run_playlist(self):
         self.get_playlist()
-        self.save_playlist()
-        self.init_playlist()
+        self.init_player()
+
+    def init_player(self):
+        if self.playlist_detail and self.playlist_list:
+            song_info = self.playlist_detail.get(self.playlist_list[self.playlist_index], None)
+            if song_info:
+                song_url = song_info.get('song_url', None)
+                if song_url:
+                    self.play(song_url)
 
 
     # get values
