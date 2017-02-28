@@ -36,11 +36,11 @@ CONFIG = {
 SONG_CATEGORIES = ui.SONG_CATEGORIES
 
 def my_log(loglevel, component, message):
-    # if loglevel == 'error':
-    #     handler_next_song()
-    # print('[{}] {}: {}\r'.format(loglevel, component, message))
-    pass
+    if loglevel == 'error':
+        # print('[{}] {}: {}\r'.format(loglevel, component, message))
+        handler_next_song()
 
+        
 mell_ui = ui.UI()
 mell_player = player.Player(log_handler=my_log, ytdl=True)
 q = queue.Queue()
@@ -89,6 +89,7 @@ def handler_space():
         mell_player.category = current_category
         mell_player.get_category_playlists()
         mell_player.run_playlist()
+        handler_update_playInfo()
 
 def handler_next_line():
     mell_ui.next_line()
@@ -109,9 +110,11 @@ def handler_prev_song():
 
 def handler_next_playlist():
     mell_player.next_playlist()
+    handler_update_playInfo()
 
 def handler_prev_playlist():
     mell_player.prev_playlist()
+    handler_update_playInfo()
 
 def handler_lyric():
     pass

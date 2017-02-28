@@ -18,23 +18,14 @@ SONG_CATEGORIES = (
     '怀旧', '清新', '浪漫', '性感', '治愈', '放松', '兴奋', '快乐', '安静', '思念'
 )
 
-FORE_COLOR = {             # 前景色
-    'default'      : 39,   #  默认
-    'black'        : 30,   #  黑色
-    'red'          : 31,   #  红色
-    'green'        : 32,   #  绿色
-    'yellow'       : 33,   #  黄色
-    'blue'         : 34,   #  蓝色
-    'purple'       : 35,   #  紫红色
-    'cyan'         : 36,   #  青蓝色
-    'white'        : 37,   #  白色
-    'grey'         : 90,
-    'light_red'    : 91,
-    'light_green'  : 92,
-    'light_yellow' : 93,
-    'light_blue'   : 94,
-    'light_magenta': 95,
-    'light_cyan'   : 96
+# 所有颜色 https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
+FORE_COLOR = {              # 前景色
+    'default'      : 246,   #  默认
+    'blue'         : 33,    
+    'green'        : 34,
+    'gray'         : 239,
+    'red'          : 161,
+
 }
 
 BLANK_CONSTANT = 3
@@ -59,7 +50,7 @@ class UI(object):
         说明：多线程终端输出有问题，在每行结尾加\r
         '''
         display_lines = ['\r']
-        display_title = '\n   %s\r' % self.gen_color(self.title, 'light_yellow')
+        display_title = '\n%s%s\r' % (' '*5, self.gen_color(self.title, 'blue'))
         display_lines.append(display_title)
         top_index = self.top_index
         bottom_index = (self.screen_height - BLANK_CONSTANT) + top_index
@@ -74,13 +65,13 @@ class UI(object):
             if is_playline:
                 play_info = self.gen_playline()
 
-            complete_line = '%s %s\r' % (category, play_info)
+            complete_line = '%s%s%s\r' % (category, ' '*10, play_info)
             display_lines.append(complete_line)
 
         if ALL_LINES < self.screen_height:
             # fill_blanks
             display_lines = self.fill_blanks(display_lines)
-        print('\n'.join(display_lines))
+        print('\n'.join(display_lines) + '\r')
 
     def next_line(self):
         if self.mark_index < (MAX_LINES - 1):
@@ -108,15 +99,15 @@ class UI(object):
     def gen_category(self, category, is_markline=False):
         if is_markline:
             category = self.gen_mark(category)
-            category = self.gen_color(data=category, color='light_blue')
+            category = self.gen_color(data=category, color='green')
         else:
             # fill 3 blanks
-            category = '   %s' % category
+            category = '%s%s' % (' '*5, category)
             category = self.gen_color(data=category, color='')
         return category
 
     def gen_mark(self, category):
-        return '➤  %s' % category
+        return '  ➣  %s' % category
 
     def gen_playline(self):
         return self.gen_color(data=self.play_info, color='')
@@ -126,8 +117,9 @@ class UI(object):
         参考地址:http://blog.csdn.net/gatieme/article/details/45439671
         但是目前用不到这么多类型，目前只用前景色
         '''
-        color_code = FORE_COLOR.get(color, 39)
-        data = "\033[;%s;m%s\033[0m" % (color_code, data)
+        color_code = FORE_COLOR.get(color, 246)
+        # data = "\033[;%s;m%s\033[0m" % (color_code, data)
+        data = "\001\033[38;5;%sm\002%s\001\033[0m\002" % (color_code, data)
         return data
 
     def fill_blanks(self, display_lines):
