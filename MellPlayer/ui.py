@@ -54,8 +54,11 @@ class UI(object):
         self.title = 'MellPlayer'
 
     def display(self):
-        display_lines = []
-        display_lines.append('\n%s' % self.title)
+        '''
+        说明：多线程终端输出有问题，在每行结尾加\r
+        '''
+        display_lines = ['\r']
+        display_lines.append('\n   %s\r' % self.title)
         top_index = self.top_index
         bottom_index = (self.screen_height - BLANK_CONSTANT) + top_index
 
@@ -69,7 +72,7 @@ class UI(object):
             if is_playline:
                 play_index = self.gen_playline()
 
-            complete_line = '%s %s' % (category, play_index)
+            complete_line = '%s %s\r' % (category, play_index)
             display_lines.append(complete_line)
 
         if ALL_LINES < self.screen_height:
