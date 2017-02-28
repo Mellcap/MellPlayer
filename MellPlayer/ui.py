@@ -58,7 +58,8 @@ class UI(object):
         说明：多线程终端输出有问题，在每行结尾加\r
         '''
         display_lines = ['\r']
-        display_lines.append('\n   %s\r' % self.title)
+        display_title = '\n   %s\r' % self.gen_color(self.title, 'light_yellow')
+        display_lines.append(display_title)
         top_index = self.top_index
         bottom_index = (self.screen_height - BLANK_CONSTANT) + top_index
 
