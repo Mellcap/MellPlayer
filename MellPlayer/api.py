@@ -10,21 +10,23 @@ Created on 2017-02-19
 import requests
 import json
 
+from encrypt_utils import encrypted_request
+
 
 class Netease(object):
 
     def __init__(self):
         self.playlist_categories = []
 
-    def _request(self, url, method='GET', is_raw=False):
+    def _request(self, url, method='GET', is_raw=False, data=None):
         '''
         对requests简单封装
         '''
         headers = {'appver': '2.0.2', 'Referer': 'http://music.163.com'}
         if method == 'GET':
-            result = requests.get(url, headers=headers)
-        elif method == 'POST':
-            result = requests.post(url, headers=headers)
+            result = requests.get(url=url, headers=headers)
+        elif method == 'POST' and data:
+            result = requests.post(url=url, data=data, headers=headers)
         # 如果请求不成功，直接返回False
         if not result.ok:
             return False
@@ -69,6 +71,13 @@ class Netease(object):
         '''
         url = 'http://music.163.com/api/song/detail?ids=%s' % song_ids
         result = self._request(url, is_raw=True)
+        return result
+
+    def song_detail_new(self, song_ids):
+        url = 'http://music.163.com/weapi/song/enhance/player/url?csrf_token='
+        data = {'ids': song_ids, 'br': 320000, 'csrf_token': ''}
+        data = encrypted_request(data)
+        result = self._request(url, method="POST", is_raw=True, data=data)
         return result
 
    
