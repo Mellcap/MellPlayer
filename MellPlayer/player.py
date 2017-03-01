@@ -122,6 +122,20 @@ class Player(MPV):
         playlist_list, playlist_detail = NeteaseApi.parse_info(data=data, parse_type='playlist_detail')
         self.playlist_list = playlist_list
         self.playlist_detail = playlist_detail
+        self.update_playlist_url()
+
+    def update_playlist_url(self):
+        song_ids = self.playlist_list
+        data = NeteaseApi.song_detail_new(song_ids)
+        song_details = NeteaseApi.parse_info(data=data, parse_type='song_detail_new')
+        for song_id in self.playlist_detail:
+            song_detail = song_details.get(song_id, None)
+            if song_detail:
+                song_info = {
+                    'song_url': song_detail.get('song_url', None),
+                    'song_br': song_detail.get('song_br', None)
+                }
+                self.playlist_detail[song_id].update(song_info)
 
     def get_play_info(self):
         play_info = ''

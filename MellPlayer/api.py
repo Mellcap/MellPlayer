@@ -121,6 +121,11 @@ class Netease(object):
                 res = {
                     'lyric': u'没有找到歌词'
                 }
+        elif parse_type == 'song_detail_new':
+            res = {d['id']: {
+                'song_url': d['url'],
+                'song_br': d['br']
+            } for d in data['data']}
         return res
                 
             
