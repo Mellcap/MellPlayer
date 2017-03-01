@@ -161,10 +161,4 @@ class Player(MPV):
                 if song_url:
                     self.play(song_url)
         
-    # get values
-    # def time_pos(self):
-    #     return self.time_pos
-
-    # def time_remaining(self):
-    #     return self.time_remaining
             

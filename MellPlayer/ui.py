@@ -44,15 +44,12 @@ class UI(object):
         self.top_index = 0
         self.screen_height = TERMINAL_SIZE.lines
         self.screen_width = TERMINAL_SIZE.columns
-        self.time_remain = ''
 
     def _get_title(self):
         player_name = '\033[1m%s' % self.gen_color('MellPlayer', 'blue')
         netease = self.gen_color('网易云音乐', 'red')
         divider = self.gen_color(data=r'\\', color='')
         display_items = [player_name, netease]
-        if self.time_remain:
-            display_items.append(self.time_remain)
         return (' %s ' % divider).join(display_items)
 
     def display(self):

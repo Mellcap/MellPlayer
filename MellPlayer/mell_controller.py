@@ -9,6 +9,7 @@ Created on 2017-02-21
 '''
 
 import threading
+import sys
 import time
 import queue
 
@@ -131,13 +132,16 @@ def time_remain():
     while not mell_player.is_quit:
         time_remain = mell_player.time_remaining
         if time_remain:
-            if time_remain <= 1:
+            if time_remain <= 3:
                 handler_next_song()
             m, s = divmod(time_remain, 60)
             time_remain = '%02d:%02d' % (m, s)
-            if mell_ui.time_remain != time_remain:
-                mell_ui.time_remain = time_remain
-                mell_ui.display()
+            time_remain = mell_ui.gen_color(data=time_remain, color='blue')
+            sys.stdout.write('%s%s%s' % (' '*(mell_ui.screen_width - 8), time_remain,'\r'))
+            sys.stdout.flush()
+            # if mell_ui.time_remain != time_remain:
+            #     mell_ui.time_remain = time_remain
+            #     mell_ui.display()
         time.sleep(1)
             
 
