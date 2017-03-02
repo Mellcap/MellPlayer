@@ -143,10 +143,14 @@ def time_remain():
                     handler_next_song()
                 m, s = divmod(time_remain, 60)
                 time_remain = '%02d:%02d' % (m, s)
-                time_remain = mell_ui.gen_color(data=time_remain, color='blue')
-                sys.stdout.write('%s%s%s' % (' '*(mell_ui.screen_width - 8), time_remain,'\r'))
-                sys.stdout.flush()
+                show_footer(time_remain)
         time.sleep(1)
+
+def show_footer(time_remain):
+    time_remain = mell_ui.gen_color(data=time_remain, color='blue')
+    footer = '%s%s%s' % (' '*(mell_ui.screen_width - 8), time_remain,'\r')
+    sys.stdout.write(footer)
+    sys.stdout.flush()
             
 
 def time_watcher():
