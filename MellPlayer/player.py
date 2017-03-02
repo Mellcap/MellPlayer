@@ -34,10 +34,9 @@ class Player(MPV):
 
     def init_playlist(self):
         '''
-        playlist会发生闪退现象，暂时自己控制播放列表
+        playlist会发生闪退问题，暂时自己控制播放列表
         '''
         if os.path.exists(PLAYLIST_FILE):
-            # print('playlist: %s' % PLAYLIST_FILE)
             self.loadlist(PLAYLIST_FILE)
 
     def start_or_pause(self):
@@ -174,5 +173,18 @@ class Player(MPV):
                 song_url = song_info.get('song_url', None)
                 if song_url:
                     self.play(song_url)
+
+
+    # 音量控制
+    def reduce_volume(self):
+        volume = max(self.volume - 10, 0)
+        self.volume = volume
+
+    def increase_volume(self):
+        volume = min(self.volume + 10, 100)
+        self.volume = volume
+
+    def mute_volume(self):
+        self.mute = not self.mute
         
             

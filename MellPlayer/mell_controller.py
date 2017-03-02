@@ -29,6 +29,10 @@ CONFIG = {
     'p': 'prev_song',
     'f': 'next_playlist',
     'b': 'prev_playlist',
+    # 音量
+    '-': 'reduce_volume',
+    '=': 'increase_volume',
+    'm': 'mute_volume',
     # 歌词
     'l': 'lyric',
     # 帮助
@@ -78,8 +82,6 @@ def key_watcher():
 
     t1.start()
     t2.start()
-    # t1.join()
-    # t2.join()
 
 def handler_space():
     current_category = SONG_CATEGORIES[mell_ui.mark_index]
@@ -118,6 +120,15 @@ def handler_next_playlist():
 def handler_prev_playlist():
     mell_player.prev_playlist()
     handler_update_playInfo()
+
+def handler_reduce_volume():
+    mell_player.reduce_volume()
+
+def handler_increase_volume():
+    mell_player.increase_volume()
+
+def handler_mute_volume():
+    mell_player.mute_volume()
 
 def handler_lyric():
     pass
