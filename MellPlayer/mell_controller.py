@@ -43,6 +43,7 @@ def my_log(loglevel, component, message):
 
         
 mell_ui = ui.UI()
+mell_help_ui = ui.HelpUI()
 mell_player = player.Player(log_handler=my_log, ytdl=True)
 q = queue.Queue()
 
@@ -122,7 +123,12 @@ def handler_lyric():
     pass
 
 def handler_help():
-    pass
+    if mell_ui.ui_mode == 'home':
+        mell_help_ui.display()
+        mell_ui.ui_mode = 'help'
+    elif mell_ui.ui_mode == 'help':
+        mell_ui.display()
+        mell_ui.ui_mode = 'home'
 
 def handler_update_playInfo():
     play_info = mell_player.get_play_info()

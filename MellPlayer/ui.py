@@ -13,7 +13,7 @@ import os
 
 SONG_CATEGORIES = (
     '流行', '摇滚', '民谣', '说唱', '轻音乐', '爵士', '乡村', '古典', 'R&B/Soul', '电子', '舞曲', '另类/独立',\
-    '学习', '工作', '午休', '清晨', '夜晚'\
+    '学习', '工作', '午休', '清晨', '夜晚',\
     '华语', '欧美', '日语', '韩语', '粤语', '小语种',\
     '怀旧', '清新', '浪漫', '性感', '治愈', '放松', '兴奋', '快乐', '安静', '思念'
 )
@@ -36,7 +36,7 @@ TERMINAL_SIZE = os.get_terminal_size()
 
 class UI(object):
 
-    def __init__(self):
+    def __init__(self, ui_mode='home'):
         self.category_lines = SONG_CATEGORIES
         self.mark_index = 0
         self.play_index= 0
@@ -44,6 +44,8 @@ class UI(object):
         self.top_index = 0
         self.screen_height = TERMINAL_SIZE.lines
         self.screen_width = TERMINAL_SIZE.columns
+        self.title = self._get_title()
+        self.ui_mode = ui_mode
 
     def _get_title(self):
         player_name = '\033[1m%s' % self.gen_color('MellPlayer', 'blue')
@@ -57,7 +59,7 @@ class UI(object):
         说明：多线程终端输出有问题，在每行结尾加\r
         '''
         display_lines = ['\r']
-        display_title = '\n%s%s\r' % (' '*5, self._get_title())
+        display_title = '\n%s%s\r' % (' '*5, self.title)
         display_lines.append(display_title)
         top_index = self.top_index
         bottom_index = (self.screen_height - BLANK_CONSTANT) + top_index
@@ -131,9 +133,52 @@ class UI(object):
         data = "\001\033[38;5;%sm\002%s\001\033[0m\002" % (color_code, data)
         return data
 
-    def fill_blanks(self, display_lines):
-        delta_lines = self.screen_height - ALL_LINES
+    def fill_blanks(self, display_lines, all_lines=ALL_LINES):
+        delta_lines = self.screen_height - all_lines
         display_lines += [' ' for i in range(delta_lines)]
         return display_lines
+
+    
+# =====================
+# HelpUI
+# =====================
+HELP_LINES = {
+    'control_move': '操作',
+    'next_line': '[j] [Next Line] ---> 下',
+    'prev_line': '[k] [Prev Line] ---> 上',
+    'quit': '[q] [Quit] ---> 退出',
+    'control_music': '音乐',
+    'space': '[space] [Start/Pause] ---> 播放／暂停',
+    'next_song': '[n] [Next Song] ---> 下一曲',
+    'prev_song': '[p] [Prev Song] ---> 上一曲',
+    'next_playlist': '[f] [Forward Playlist] ---> 下个歌单',
+    'prev_playlist': '[b] [Backward Playlist] ---> 上个歌单',
+    # 'control_volume': '音量',
+    # 'reduce_volume': '[-] [Reduce Volume] ---> 减小音量',
+    # 'increase_volume': '[=] [Increase Volume] ---> 增加音量',
+    # 'mute': '[m] [Mute] ---> 静音',
+    # 'control_lyric': '歌词',
+    # 'lyric': '[l] [Show/Hide Lyric] ---> 显示／关闭歌词',
+    'control_help': '帮助',
+    'help': '[h] [Show/Hide Help] ---> 显示／关闭帮助'
+}
+
+class HelpUI(UI):
+    def __init__(self):
+        super(HelpUI, self).__init__(ui_mode='help')
+
+    def display(self):
+        display_lines = ['\r']
+        display_title = '\n%s%s\r' % (' '*5, self.title)
+        display_lines.append(display_title)
+        for key, help_line in HELP_LINES.items():
+            display_lines.append('%s\r' % help_line)
+
+        # fill blanks
+        all_lines = len(display_lines) + BLANK_CONSTANT
+        if all_lines < self.screen_height:
+            display_lines = self.fill_blanks(display_lines, all_lines=all_lines)
+        print('\n'.join(display_lines) + '\r')
+        
 
         
