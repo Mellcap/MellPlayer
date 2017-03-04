@@ -191,6 +191,13 @@ class LyricUI(UI):
         self.lyric_lines = None
         self.lyric_display_lines = None
 
+    def parse_lyric(self, origin_lyric):
+        compiler = re.compile('\[(.+)\](.+?)\n')
+        format_lyric = compiler.findall(origin_lyric)
+        if format_lyric:
+            self.lyric_times = [format_minute2second(l[0]) for l in format_lyric]
+            self.lyric_lines = [l[1] for l in format_lyric]
+
     def display(self):
         display_lines = ['\r']
         display_title = '\n%s%s\r' % (' '*5, self.title)
@@ -200,12 +207,12 @@ class LyricUI(UI):
                 display_lines.append('%s\r' % line)
         print('\n'.join(display_lines) + '\r')
 
-    def parse_lyric(self, origin_lyric):
-        compiler = re.compile('\[(.+)\](.+?)\n')
-        format_lyric = compiler.findall(origin_lyric)
-        self.lyric_times = [format_minute2second(l[0]) for l in format_lyric]
-        self.lyric_lines = [l[1] for l in format_lyric]
-
+    def roll(self, timestamp):
+        lyric_times = self.lyric_times
+        if lyric_times and timestamp in lyric_times:
+            lyric_index = lyric_times.index(timestamp)
+            self.lyric_display_lines = self.lyric_lines[:(lyric_index + 1)]
+            self.display()
 
 # Basic Method
 def format_minute2second(timestamp):
