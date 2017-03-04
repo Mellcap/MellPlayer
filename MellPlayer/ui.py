@@ -179,6 +179,36 @@ class HelpUI(UI):
         if all_lines < self.screen_height:
             display_lines = self.fill_blanks(display_lines, all_lines=all_lines)
         print('\n'.join(display_lines) + '\r')
-        
 
-        
+# =====================
+# LyricUI
+# =====================
+
+class LyricUI(UI):
+    def __init__(self):
+        super(LyricUI, self).__init__(ui_mode='lyric')
+        self.lyric_times = None
+        self.lyric_lines = None
+        self.lyric_display_lines = None
+
+    def display(self):
+        display_lines = ['\r']
+        display_title = '\n%s%s\r' % (' '*5, self.title)
+        display_lines.append(display_title)
+        if self.lyric_lines:
+            for line in self.lyric_display_lines:
+                display_lines.append('%s\r' % line)
+        print('\n'.join(display_lines) + '\r')
+
+    def parse_lyric(self, origin_lyric):
+        compiler = re.compile('\[(.+)\](.+?)\n')
+        format_lyric = compiler.findall(origin_lyric)
+        self.lyric_times = [format_minute2second(l[0]) for l in format_lyric]
+        self.lyric_lines = [l[1] for l in format_lyric]
+
+
+# Basic Method
+def format_minute2second(timestamp):
+    stamp_list = timestamp[:5].split(':')
+    return int(stamp_list[0]) * 60 + int(stamp_list[1])
+    
