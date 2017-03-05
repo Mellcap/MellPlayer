@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 '''
-Netease Music UI
+MellPlayer UI
 
 Created on 2017-02-21
 @author: Mellcap

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 '''
-Netease Music MellController
+MellPlayer Controller
 
 Created on 2017-03-05
 @author: Mellcap
@@ -14,16 +14,21 @@ import ui
 
 SONG_CATEGORIES = ui.SONG_CATEGORIES
 
-mell_ui = ui.UI()
-mell_help_ui = ui.HelpUI()
 
 def mell_logger(loglevel, component, message):
     if loglevel == 'error':
         # print('[{}] {}: {}\r'.format(loglevel, component, message))
         handler_next_song()
         
+
+mell_ui = ui.UI()
+mell_help_ui = ui.HelpUI()
 mell_player = player.Player(log_handler=mell_logger, ytdl=True)
 
+
+# ===========================
+# Controller Handler
+# ===========================
 
 def handler_space():
     current_category = SONG_CATEGORIES[mell_ui.mark_index]

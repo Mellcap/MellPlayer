@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 '''
-Netease Music Watcher
+MellPlayer Watcher
 
 Created on 2017-03-05
 @author: Mellcap

@@ -18,7 +18,7 @@ class Netease(object):
     def __init__(self):
         self.playlist_categories = []
 
-    def _request(self, url, method='GET', is_raw=False, data=None):
+    def _request(self, url, method='GET', is_raw=True, data=None):
         '''
         对requests简单封装
         '''
@@ -26,24 +26,23 @@ class Netease(object):
         if method == 'GET':
             result = requests.get(url=url, headers=headers)
         elif method == 'POST' and data:
-            result = requests.post(url=url, data=data, headers=headers)
-        # 如果请求不成功，直接返回False
+            result = requests.post(url=url, data=data, heders=headers)
+        # if request failed, return False
         if not result.ok:
             return False
         result.encoding = 'UTF-8'
-        # 如果请求原网址，则用json load一下
         if is_raw:
             return json.loads(result.text)
         return result.text
 
-    # def playlist_categories(self):
-    #     '''
-    #     分类歌单
-    #     http://music.163.com/discover/playlist/
-    #     '''
-    #     url = 'http://music.163.com/discover/playlist/'
-    #     result = self._request(url, is_raw=True)
-    #     return result
+    def playlist_categories(self):
+        '''
+        分类歌单
+        http://music.163.com/discover/playlist/
+        '''
+        url = 'http://music.163.com/discover/playlist/'
+        result = self._request(url)
+        return result
 
     def category_playlists(self, category='流行', offset=0, limit=50, order='hot', total='false'):
         '''
@@ -51,7 +50,7 @@ class Netease(object):
         http://music.163.com/api/playlist/list?cat=流行&order=hot&offset=0&total=false&limit=50
         '''
         url = 'http://music.163.com/api/playlist/list?cat=%s&order=%s&offset=%s&total=%s&limit=%s' % (category, order, offset, total, limit)
-        result = self._request(url, is_raw=True)
+        result = self._request(url)
         return result
 
     def playlist_detail(self, playlist_id):
@@ -60,7 +59,7 @@ class Netease(object):
         http://music.163.com/api/playlist/detail?id=xxx
         '''
         url = 'http://music.163.com/api/playlist/detail?id=%s' % playlist_id
-        result = self._request(url, is_raw=True)
+        result = self._request(url)
         return result
 
     
@@ -70,14 +69,14 @@ class Netease(object):
         http://music.163.com/api/song/detail?ids=[xxx, xxx]
         '''
         url = 'http://music.163.com/api/song/detail?ids=%s' % song_ids
-        result = self._request(url, is_raw=True)
+        result = self._request(url)
         return result
 
     def song_detail_new(self, song_ids):
         url = 'http://music.163.com/weapi/song/enhance/player/url?csrf_token='
         data = {'ids': song_ids, 'br': 320000, 'csrf_token': ''}
         data = encrypted_request(data)
-        result = self._request(url, method="POST", is_raw=True, data=data)
+        result = self._request(url, method="POST", data=data)
         return result
 
    
@@ -87,7 +86,7 @@ class Netease(object):
         http://music.163.com/api/song/lyric?os=osx&id=xxx&lv=-1&kv=-1&tv=-1
         '''
         url = 'http://music.163.com/api/song/lyric?os=osx&id=%s&lv=-1&kv=-1&tv=-1' % song_id
-        result = self._request(url, is_raw=True)
+        result = self._request(url)
         return result
 
 
@@ -98,10 +97,6 @@ class Netease(object):
         res = None
         if parse_type == 'category_playlists':
             res = [d['id'] for d in data['playlists']]
-            # res = [{
-            #     'playlist_id': d['id'],
-            #     'playlist_name': d['name']
-            # } for d in data['playlists']]
         elif parse_type == 'playlist_detail':
             tracks = data['result']['tracks']
             playlist_list = [t['id'] for t in tracks]

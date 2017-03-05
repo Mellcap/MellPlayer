@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 '''
-Netease Music Directory
+MellPlayer Directory
 
 Created on 2017-02-23
 @author: Mellcap
