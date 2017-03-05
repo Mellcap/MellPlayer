@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 '''
-Netease Music MellController
+Netease Music Starter
 
 Created on 2017-03-05
 @author: Mellcap

@@ -99,3 +99,4 @@ def i_player():
 def initial_player():
     initPlayer_thread = threading.Thread(target=i_player)
     initPlayer_thread.start()
+    initPlayer_thread.join()

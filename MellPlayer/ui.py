@@ -143,24 +143,29 @@ class UI(object):
 # HelpUI
 # =====================
 HELP_LINES = {
+    'help_space_1': '',
     'control_move': '操作',
-    'next_line': '[j] [Next Line] ---> 下',
-    'prev_line': '[k] [Prev Line] ---> 上',
-    'quit': '[q] [Quit] ---> 退出',
+    'next_line':       '[j]     [Next Line]         ---> 下',
+    'prev_line':       '[k]     [Prev Line]         ---> 上',
+    'quit':            '[q]     [Quit]              ---> 退出',
+    'help_space_2': '',
     'control_music': '音乐',
-    'space': '[space] [Start/Pause] ---> 播放／暂停',
-    'next_song': '[n] [Next Song] ---> 下一曲',
-    'prev_song': '[p] [Prev Song] ---> 上一曲',
-    'next_playlist': '[f] [Forward Playlist] ---> 下个歌单',
-    'prev_playlist': '[b] [Backward Playlist] ---> 上个歌单',
-    # 'control_volume': '音量',
-    # 'reduce_volume': '[-] [Reduce Volume] ---> 减小音量',
-    # 'increase_volume': '[=] [Increase Volume] ---> 增加音量',
-    # 'mute': '[m] [Mute] ---> 静音',
+    'space':           '[space] [Start/Pause]       ---> 播放／暂停',
+    'next_song':       '[n]     [Next Song]         ---> 下一曲',
+    'prev_song':       '[p]     [Prev Song]         ---> 上一曲',
+    'next_playlist':   '[f]     [Forward Playlist]  ---> 下个歌单',
+    'prev_playlist':   '[b]     [Backward Playlist] ---> 上个歌单',
+    'help_space_3': '',
+    'control_volume': '音量',
+    'reduce_volume':   '[-]     [Reduce Volume]     ---> 减小音量',
+    'increase_volume': '[=]     [Increase Volume    ---> 增加音量',
+    'mute':            '[m]     [Mute]              ---> 静音',
+    # 'help_space_4': '',
     # 'control_lyric': '歌词',
     # 'lyric': '[l] [Show/Hide Lyric] ---> 显示／关闭歌词',
+    'help_space_5': '',
     'control_help': '帮助',
-    'help': '[h] [Show/Hide Help] ---> 显示／关闭帮助'
+    'help':            '[h]     [Show/Hide Help]    ---> 显示／关闭帮助'
 }
 
 class HelpUI(UI):
@@ -172,10 +177,10 @@ class HelpUI(UI):
         display_title = '\n%s%s\r' % (' '*5, self.title)
         display_lines.append(display_title)
         for key, help_line in HELP_LINES.items():
-            display_lines.append('%s\r' % help_line)
+            display_lines.append('%s%s\r' % (' '*5, help_line))
 
         # fill blanks
-        all_lines = len(display_lines) + BLANK_CONSTANT
+        all_lines = len(HELP_LINES) + BLANK_CONSTANT
         if all_lines < self.screen_height:
             display_lines = self.fill_blanks(display_lines, all_lines=all_lines)
         print('\n'.join(display_lines) + '\r')

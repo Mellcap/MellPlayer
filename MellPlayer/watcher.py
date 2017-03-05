@@ -72,6 +72,8 @@ def key_watcher():
 
     k_watcher_thread.start()
     k_executor_thread.start()
+    k_watcher_thread.join()
+    k_executor_thread.join()
 
 
 # ===========================
@@ -102,3 +104,4 @@ def show_footer(timestamp):
 def time_watcher():
     t_watcher_thread = threading.Thread(target=t_watcher)
     t_watcher_thread.start()
+
