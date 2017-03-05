@@ -178,20 +178,20 @@ class UI(object):
 # =====================
 
 HELP_LINES = {
-    'help_space_1': '',
-    'control_move': '操作',
+    'help_space_1':    '',
+    'control_move':    '操作',
     'next_line':       '[j]     [Next Line]         ---> 下',
     'prev_line':       '[k]     [Prev Line]         ---> 上',
     'quit':            '[q]     [Quit]              ---> 退出',
-    'help_space_2': '',
-    'control_music': '音乐',
+    'help_space_2':    '',
+    'control_music':   '音乐',
     'space':           '[space] [Start/Pause]       ---> 播放／暂停',
     'next_song':       '[n]     [Next Song]         ---> 下一曲',
     'prev_song':       '[p]     [Prev Song]         ---> 上一曲',
     'next_playlist':   '[f]     [Forward Playlist]  ---> 下个歌单',
     'prev_playlist':   '[b]     [Backward Playlist] ---> 上个歌单',
-    'help_space_3': '',
-    'control_volume': '音量',
+    'help_space_3':    '',
+    'control_volume':  '音量',
     'reduce_volume':   '[-]     [Reduce Volume]     ---> 减小音量',
     'increase_volume': '[=]     [Increase Volume    ---> 增加音量',
     'mute':            '[m]     [Mute]              ---> 静音',
@@ -210,22 +210,25 @@ class HelpUI(UI):
 
     def display(self):
         display_lines = ['\r']
-        display_title = '\n%s%s\r' % (' '*5, self.title)
+        display_title = '\n%s%s' % (' '*5, self.title)
         display_lines.append(display_title)
         for key, help_line in HELP_LINES.items():
-            display_lines.append('%s%s\r' % (' '*5, help_line))
+            display_lines.append('%s%s' % (' '*5, help_line))
 
         # fill blanks
         all_lines = len(HELP_LINES) + BLANK_CONSTANT
         if all_lines < self.screen_height:
             display_lines = self.fill_blanks(display_lines, all_lines=all_lines)
-        print('\n'.join(display_lines) + '\r')
+        # add tail
+        display_lines = self.add_tail(source_list=display_lines, tail='\r')
+        print('\n'.join(display_lines))
 
 # =====================
 # LyricUI
 # =====================
 
 class LyricUI(UI):
+    
     def __init__(self):
         
         super(LyricUI, self).__init__(ui_mode='lyric')
