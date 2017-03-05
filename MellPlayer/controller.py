@@ -9,8 +9,8 @@ Created on 2017-03-05
 '''
 import threading
 
-from player import mell_player
-from ui import mell_ui, mell_help_ui, SONG_CATEGORIES
+from mellplayer.player import mell_player
+from mellplayer.ui import mell_ui, mell_help_ui, SONG_CATEGORIES
 
 
 # ===========================
@@ -22,11 +22,11 @@ def handler_space():
     if mell_player.category == current_category:
         handler_play()
     else:
+        # change UI play_index 
+        mell_ui.update_play_index()
         # change playlist category
         mell_player.switch_category(new_category=current_category)
-        # change UI play_index & play_info
-        mell_ui.update_play_index()
-        handler_update_playInfo()
+
 
 def handler_next_line():
     mell_ui.next_line()
@@ -39,19 +39,15 @@ def handler_play():
 
 def handler_next_song():
     mell_player.next_song()
-    handler_update_playInfo()
 
 def handler_prev_song():
     mell_player.prev_song()
-    handler_update_playInfo()
 
 def handler_next_playlist():
     mell_player.next_playlist()
-    handler_update_playInfo()
 
 def handler_prev_playlist():
     mell_player.prev_playlist()
-    handler_update_playInfo()
 
 def handler_reduce_volume():
     mell_player.reduce_volume()
@@ -76,10 +72,6 @@ def handler_help():
 def handler_quit():
     mell_player.terminate()
 
-def handler_update_playInfo():
-    play_info = mell_player.get_play_info()
-    mell_ui.update_play_info(play_info)
-
 
 # ===========================
 # Initial Player
@@ -88,7 +80,7 @@ def handler_update_playInfo():
 def i_player():
     current_category = SONG_CATEGORIES[mell_ui.mark_index]
     mell_player.switch_category(new_category=current_category)
-    handler_update_playInfo()
+    # handler_update_playInfo()
 
 def initial_player():
     initPlayer_thread = threading.Thread(target=i_player)

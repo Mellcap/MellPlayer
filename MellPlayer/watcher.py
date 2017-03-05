@@ -12,8 +12,8 @@ import time
 import queue
 import threading
 
-from controller import *
-from utils import getch
+from mellplayer.controller import *
+from mellplayer.utils import getch
 
 KEY_QUEUE = queue.Queue()
 CONFIG = {

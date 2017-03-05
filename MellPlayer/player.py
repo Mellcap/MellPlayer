@@ -12,13 +12,15 @@ import os
 import time
 import threading
 
-from utils.mpv import MPV
-from api import Netease
-from directory import BASE_DIRECTORY
+from mellplayer.utils.mpv import MPV
+from mellplayer.api import Netease
+from mellplayer.directory import BASE_DIRECTORY
+from mellplayer.event.ui_event import UIEvent
 
 PLAYLIST_MAX = 50
 PLAYLIST_FILE = os.path.join(BASE_DIRECTORY, 'playlist.m3u')
 NeteaseApi = Netease()
+UiEvent = UIEvent()
 
 
 class Player(MPV):
@@ -159,6 +161,10 @@ class Player(MPV):
         self.update_song_info()
         return self.song_info
 
+    def show_song_info(self):
+        self.update_song_info()
+        UiEvent.handler_update_playInfo(self.song_info)
+
 
     def run_playlist(self):
         '''
@@ -183,6 +189,7 @@ class Player(MPV):
                 # @TODO add logger
                 pass
             self.play(song_url)
+            self.show_song_info()
 
 
     # ===========================
