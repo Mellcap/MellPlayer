@@ -12,7 +12,7 @@ import os
 import time
 import threading
 
-from mpv import MPV
+from utils.mpv import MPV
 from api import Netease
 from directory import BASE_DIRECTORY
 

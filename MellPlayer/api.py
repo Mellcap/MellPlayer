@@ -10,7 +10,7 @@ Created on 2017-02-19
 import requests
 import json
 
-from encrypt_utils import encrypted_request
+from utils.encrypt_utils import encrypted_request
 
 
 class Netease(object):

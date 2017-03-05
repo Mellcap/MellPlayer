@@ -13,7 +13,7 @@ import sys
 import time
 import queue
 
-import getch
+from utils import getch
 import ui
 import player
 from directory import create_directory
