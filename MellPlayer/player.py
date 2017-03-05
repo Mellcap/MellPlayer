@@ -242,3 +242,18 @@ class Player(MPV):
             for line in playlist:
                 f.write(line)
         return True
+
+
+# ===========================
+# Instance
+# ===========================
+
+def mell_logger(loglevel, component, message):
+    if loglevel == 'error':
+        # print('[{}] {}: {}\r'.format(loglevel, component, message))
+        play_next_song()
+        
+mell_player = Player(log_handler=mell_logger, ytdl=True)
+
+def play_next_song():
+    mell_player.next_song()

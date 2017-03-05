@@ -264,3 +264,11 @@ def format_minute2second(timestamp):
     stamp_list = timestamp[:5].split(':')
     return int(stamp_list[0]) * 60 + int(stamp_list[1])
     
+
+
+# =====================
+# Instance
+# =====================
+
+mell_ui = UI()
+mell_help_ui = HelpUI()

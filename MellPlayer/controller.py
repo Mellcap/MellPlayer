@@ -9,23 +9,8 @@ Created on 2017-03-05
 '''
 import threading
 
-import player
-import ui
-
-SONG_CATEGORIES = ui.SONG_CATEGORIES
-
-# ===========================
-# Initial
-# ===========================
-
-def mell_logger(loglevel, component, message):
-    if loglevel == 'error':
-        # print('[{}] {}: {}\r'.format(loglevel, component, message))
-        handler_next_song()
-
-mell_ui = ui.UI()
-mell_help_ui = ui.HelpUI()
-mell_player = player.Player(log_handler=mell_logger, ytdl=True)
+from player import mell_player
+from ui import mell_ui, mell_help_ui, SONG_CATEGORIES
 
 
 # ===========================
