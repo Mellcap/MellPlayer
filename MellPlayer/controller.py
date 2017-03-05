@@ -38,9 +38,7 @@ def handler_space():
         # change UI play_index
         mell_ui.update_play_index()
         # change playlist category
-        mell_player.category = current_category
-        mell_player.get_category_playlists()
-        mell_player.run_playlist()
+        mell_player.switch_category(new_category=current_category)
         handler_update_playInfo()
 
 def handler_next_line():
@@ -103,7 +101,7 @@ def handler_update_playInfo():
 def i_player():
     current_category = SONG_CATEGORIES[mell_ui.mark_index]
     mell_player.category = current_category
-    mell_player.get_category_playlists()
+    mell_player.get_category_playlist_ids()
     mell_player.run_playlist()
     handler_update_playInfo()
 
