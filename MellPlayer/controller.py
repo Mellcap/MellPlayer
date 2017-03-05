@@ -14,12 +14,14 @@ import ui
 
 SONG_CATEGORIES = ui.SONG_CATEGORIES
 
+# ===========================
+# Initial
+# ===========================
 
 def mell_logger(loglevel, component, message):
     if loglevel == 'error':
         # print('[{}] {}: {}\r'.format(loglevel, component, message))
         handler_next_song()
-        
 
 mell_ui = ui.UI()
 mell_help_ui = ui.HelpUI()
@@ -100,9 +102,7 @@ def handler_update_playInfo():
 
 def i_player():
     current_category = SONG_CATEGORIES[mell_ui.mark_index]
-    mell_player.category = current_category
-    mell_player.get_category_playlist_ids()
-    mell_player.run_playlist()
+    mell_player.switch_category(new_category=current_category)
     handler_update_playInfo()
 
 def initial_player():
