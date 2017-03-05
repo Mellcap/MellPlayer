@@ -51,20 +51,13 @@ def k_watcher():
 
 def k_executor():
     while 1:
-        try:
-            key = KEY_QUEUE.get_nowait()
-            action = CONFIG.get(key, None)
-            if action:
-                try:
-                    func = 'handler_%s' % action
-                    eval(func)()
-                    if action == 'quit':
-                        break
-                except Exception:
-                    pass
-        except Exception:
-            pass
-
+        key = KEY_QUEUE.get()
+        action = CONFIG.get(key, None)
+        if action:
+            func = 'handler_%s' % action
+            eval(func)()
+            if action == 'quit':
+                break
 
 def key_watcher():
     k_watcher_thread = threading.Thread(target=k_watcher)
