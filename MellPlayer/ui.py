@@ -19,8 +19,9 @@ SONG_CATEGORIES = (
 )
 
 # 所有颜色 https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
-FORE_COLOR = {              # 前景色
-    'default'      : 249,   #  默认
+FORE_COLOR = {       # 前景色
+    'default'      : 249,
+    'white'        : 15,
     'blue'         : 39,    
     'green'        : 34,
     'gray'         : 239,

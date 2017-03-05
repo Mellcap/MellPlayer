@@ -16,7 +16,13 @@ SONG_CATEGORIES = ui.SONG_CATEGORIES
 
 mell_ui = ui.UI()
 mell_help_ui = ui.HelpUI()
-mell_player = player.Player(log_handler=player.mell_logger, ytdl=True)
+
+def mell_logger(loglevel, component, message):
+    if loglevel == 'error':
+        # print('[{}] {}: {}\r'.format(loglevel, component, message))
+        handler_next_song()
+        
+mell_player = player.Player(log_handler=mell_logger, ytdl=True)
 
 
 def handler_space():
@@ -99,4 +105,4 @@ def i_player():
 def initial_player():
     initPlayer_thread = threading.Thread(target=i_player)
     initPlayer_thread.start()
-    initPlayer_thread.join()
+
