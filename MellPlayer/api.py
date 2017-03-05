@@ -26,7 +26,7 @@ class Netease(object):
         if method == 'GET':
             result = requests.get(url=url, headers=headers)
         elif method == 'POST' and data:
-            result = requests.post(url=url, data=data, heders=headers)
+            result = requests.post(url=url, data=data, headers=headers)
         # if request failed, return False
         if not result.ok:
             return False

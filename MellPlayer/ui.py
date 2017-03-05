@@ -19,8 +19,8 @@ SONG_CATEGORIES = (
 )
 
 # 所有颜色 https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
-FORE_COLOR = {       # 前景色
-    'default'      : 249,
+FOREGROUND_COLOR = {       # 前景色
+    'default'      : 246,
     'white'        : 15,
     'blue'         : 39,    
     'green'        : 34,
@@ -31,9 +31,10 @@ FORE_COLOR = {       # 前景色
 }
 
 BLANK_CONSTANT = 3
+TERMINAL_SIZE = os.get_terminal_size()
+BOLD_STR = '\033[1m'
 MAX_LINES = len(SONG_CATEGORIES)
 ALL_LINES = MAX_LINES + BLANK_CONSTANT
-TERMINAL_SIZE = os.get_terminal_size()
 
 class UI(object):
 
@@ -42,25 +43,31 @@ class UI(object):
         self.mark_index = 0
         self.play_index= 0
         self.play_info = ''
+        
         self.top_index = 0
         self.screen_height = TERMINAL_SIZE.lines
         self.screen_width = TERMINAL_SIZE.columns
         self.title = self._get_title()
         self.ui_mode = ui_mode
 
+    # =====================
+    # UI Displayer
+    # =====================
+    
     def _get_title(self):
-        player_name = '\033[1m%s' % self.gen_color('MellPlayer', 'blue')
+        player_name = '%s%s' % (BOLD_STR, self.gen_color('MellPlayer', 'blue'))
         netease = self.gen_color('网易云音乐', 'red')
-        divider = self.gen_color(data=r'\\', color='')
+        divider = self.gen_color(data=r'\\')
         display_items = [player_name, netease]
         return (' %s ' % divider).join(display_items)
 
     def display(self):
         '''
+        UI 输出
         说明：多线程终端输出有问题，在每行结尾加\r
         '''
         display_lines = ['\r']
-        display_title = '\n%s%s\r' % (' '*5, self.title)
+        display_title = '\n%s%s' % (' '*5, self.title)
         display_lines.append(display_title)
         top_index = self.top_index
         bottom_index = (self.screen_height - BLANK_CONSTANT) + top_index
@@ -75,43 +82,21 @@ class UI(object):
             if is_playline:
                 play_info = self.gen_playline()
 
-            complete_line = '%s%s%s\r' % (category, ' '*10, play_info)
+            complete_line = '%s%s%s' % (category, ' '*10, play_info)
             display_lines.append(complete_line)
 
         if ALL_LINES < self.screen_height:
             # fill_blanks
             display_lines = self.fill_blanks(display_lines)
-        print('\n'.join(display_lines) + '\r')
-
-    def next_line(self):
-        if self.mark_index < (MAX_LINES - 1):
-            self.mark_index += 1
-            bottom_index = (self.screen_height - BLANK_CONSTANT) + self.top_index
-            if self.mark_index > (bottom_index - 1):
-                self.top_index += 1
-        self.display()
-
-    def prev_line(self):
-        if self.mark_index > 0:
-            self.mark_index -= 1
-            if self.mark_index < self.top_index:
-                self.top_index -= 1
-        self.display()
-
-    def update_play_index(self):
-        self.play_index = self.mark_index
-        self.display()
-
-    def update_play_info(self, play_info):
-        self.play_info = play_info
-        self.display()
+        # add tail
+        display_lines = self.add_tail(source_list=display_lines, tail='\r')
+        print('\n'.join(display_lines))
         
     def gen_category(self, category, is_markline=False):
         if is_markline:
             category = self.gen_mark(category)
             category = self.gen_color(data=category, color='pink')
         else:
-            # fill 3 blanks
             category = '%s%s' % (' '*5, category)
             category = self.gen_color(data=category, color='')
         return category
@@ -124,17 +109,65 @@ class UI(object):
         divider = self.gen_color(data='|', color='')
         return ('  %s  ' % divider).join(complete_info)
 
-    def gen_color(self, data, color):
+    # =====================
+    # UI Controller
+    # =====================
+    
+    def next_line(self):
+        '''
+        下一行
+        '''
+        if self.mark_index < (MAX_LINES - 1):
+            self.mark_index += 1
+            bottom_index = (self.screen_height - BLANK_CONSTANT) + self.top_index
+            if self.mark_index > (bottom_index - 1):
+                self.top_index += 1
+        self.display()
+
+    def prev_line(self):
+        '''
+        上一行
+        '''
+        if self.mark_index > 0:
+            self.mark_index -= 1
+            if self.mark_index < self.top_index:
+                self.top_index -= 1
+        self.display()
+
+    def update_play_index(self):
+        '''
+        更新歌曲信息展示在光标选定行
+        '''
+        self.play_index = self.mark_index
+        # self.display()
+
+    def update_play_info(self, play_info):
+        '''
+        更新歌曲信息
+        '''
+        self.play_info = play_info
+        self.display()
+
+    # =====================
+    # Utils
+    # =====================
+    
+    def gen_color(self, data, color='default'):
         '''
         参考地址:http://blog.csdn.net/gatieme/article/details/45439671
         但是目前用不到这么多类型，目前只用前景色
         '''
-        color_code = FORE_COLOR.get(color, 246)
-        # data = "\033[;%s;m%s\033[0m" % (color_code, data)
+        color_code = FOREGROUND_COLOR.get(color, 246)
         data = "\001\033[38;5;%sm\002%s\001\033[0m\002" % (color_code, data)
         return data
 
+    def add_tail(self, source_list, tail):
+        return map(lambda x: '%s%s' % (str(x), tail), source_list)
+
     def fill_blanks(self, display_lines, all_lines=ALL_LINES):
+        '''
+        补全空白行
+        '''
         delta_lines = self.screen_height - all_lines
         display_lines += [' ' for i in range(delta_lines)]
         return display_lines
@@ -143,6 +176,7 @@ class UI(object):
 # =====================
 # HelpUI
 # =====================
+
 HELP_LINES = {
     'help_space_1': '',
     'control_move': '操作',
@@ -170,6 +204,7 @@ HELP_LINES = {
 }
 
 class HelpUI(UI):
+    
     def __init__(self):
         super(HelpUI, self).__init__(ui_mode='help')
 
@@ -192,6 +227,7 @@ class HelpUI(UI):
 
 class LyricUI(UI):
     def __init__(self):
+        
         super(LyricUI, self).__init__(ui_mode='lyric')
         self.lyric_times = None
         self.lyric_lines = None

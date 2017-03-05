@@ -37,10 +37,10 @@ def handler_space():
     if mell_player.category == current_category:
         handler_play()
     else:
-        # change UI play_index
-        mell_ui.update_play_index()
         # change playlist category
         mell_player.switch_category(new_category=current_category)
+        # change UI play_index & play_info
+        mell_ui.update_play_index()
         handler_update_playInfo()
 
 def handler_next_line():

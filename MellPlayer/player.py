@@ -143,7 +143,7 @@ class Player(MPV):
             }
             self.playlist_detail[song_id].update(song_info)
 
-    def update_song_info():
+    def update_song_info(self):
         '''
         更新歌曲信息：歌名 & 歌手名
         '''
