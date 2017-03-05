@@ -181,7 +181,7 @@ def run_player():
     t = threading.Thread(target=initial_player)
     t.start()
 
-if __name__ == '__main__':
+def main():
     mell_ui.display()
     run_player()
     time_watcher()
