@@ -20,6 +20,11 @@ PLAYLIST_MAX = 50
 PLAYLIST_FILE = os.path.join(BASE_DIRECTORY, 'playlist.m3u')
 NeteaseApi = Netease()
 
+def mell_logger(loglevel, component, message):
+    if loglevel == 'error':
+        # print('[{}] {}: {}\r'.format(loglevel, component, message))
+        handler_next_song()
+
 class Player(MPV):
 
     def __init__(self, *extra_mpv_flags, log_handler=None, start_event_thread=True, **extra_mpv_opts):
