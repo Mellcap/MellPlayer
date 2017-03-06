@@ -12,10 +12,11 @@ from mellplayer.controller import mell_ui, initial_player
 from mellplayer.watcher import time_watcher, key_watcher
 
 def main():
-    mell_ui.display()
+    print('Initial Player...')
     initial_player()
     time_watcher()
     key_watcher()
+    mell_ui.display()
 
 if __name__ == '__main__':
     main()
