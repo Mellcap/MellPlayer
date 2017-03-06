@@ -35,6 +35,17 @@ def show_changing_text(func):
         return func(*args, **kw)
     return wrapper
 
+def show_song_info_text(func):
+    def wrapper(*args, **kw):
+        func(*args, **kw)
+        p = args[0]
+        while 1:
+            if p.time_pos:
+                p.show_song_info()
+                break
+            time.sleep(1)
+    return wrapper
+
 
 class Player(MPV):
 
@@ -65,6 +76,7 @@ class Player(MPV):
         elif action == 'prev':
             self.playlist_prev()
 
+    @show_changing_text
     def next_song(self):
         # self.playlist_next()
         playlist_ids = self.playlist_ids
@@ -74,6 +86,7 @@ class Player(MPV):
                 self.playlist_index = 0
             self.run_player()
 
+    @show_changing_text
     def prev_song(self):
         # self.playlist_prev()
         playlist_ids = self.playlist_ids
@@ -92,6 +105,7 @@ class Player(MPV):
         elif action == 'prev':
             self.prev_playlist()
 
+    @show_changing_text
     def next_playlist(self):
         category_playlist_ids = self.category_playlist_ids
         if category_playlist_ids:
@@ -100,6 +114,7 @@ class Player(MPV):
                 self.category_playlist_index = 0
             self.run_playlist()
 
+    @show_changing_text
     def prev_playlist(self):
         category_playlist_ids = self.category_playlist_ids
         if category_playlist_ids:
@@ -191,7 +206,8 @@ class Player(MPV):
         self.playlist_index = 0
         self.get_playlist()
         self.run_player()
-            
+
+    @show_song_info_text
     def run_player(self):
         '''
         启动播放器
@@ -206,7 +222,6 @@ class Player(MPV):
                 # @TODO add logger
                 pass
             self.play(song_url)
-            self.show_song_info()
 
 
     # ===========================
