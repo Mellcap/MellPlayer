@@ -17,6 +17,7 @@ from mellplayer.utils.mpv import MPV
 from mellplayer.api import Netease
 from mellplayer.directory import BASE_DIRECTORY
 from mellplayer.event.ui_event import UIEvent
+from mellplayer.mell_logger import mell_logger
 
 PLAYLIST_MAX = 50
 PLAYLIST_FILE = os.path.join(BASE_DIRECTORY, 'playlist.m3u')
@@ -256,17 +257,14 @@ class Player(MPV):
 # Instance
 # ===========================
 
-def mell_logger(loglevel, component, message):
+def player_logger(loglevel, component, message):
     if loglevel == 'error':
         # print('[{}] {}: {}\r'.format(loglevel, component, message))
-        # with open('~/.MellPlayer/logger_2.txt', 'a') as f:
-        #     f.write('%s--component:%s, message:%s\n' % (now, component, message))
         refresh_playlist()
+    # mell_logger.info('[%s] %s: %s' % (loglevel, component, message))
         
-mell_player = Player(log_handler=mell_logger, ytdl=True)
+mell_player = Player(log_handler=player_logger, ytdl=True)
 
 def refresh_playlist():
-    # with open('~/.MellPlayer/logger_2.txt', 'a') as f:
-    #     f.write('refresh_playlist\n')
     mell_player.get_playlist()
     mell_player.run_player()

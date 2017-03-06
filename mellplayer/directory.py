@@ -12,8 +12,17 @@ import os
 
 BASE_DIRECTORY = os.path.join(os.path.expanduser('~'), '.MellPlayer')
 
-def create_directory(directory=None):
-    if not directory:
-        directory = BASE_DIRECTORY
-    if not os.path.exists(directory):
-        os.makedirs(directory)
+class Directory(object):
+
+    def create_directory(self, directory=None):
+        if not directory:
+            directory = BASE_DIRECTORY
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+
+# ===========================
+# Instance
+# ===========================
+
+mell_directory = Directory()
+mell_directory.create_directory()
