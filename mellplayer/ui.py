@@ -139,12 +139,13 @@ class UI(object):
         更新歌曲信息展示在光标选定行
         '''
         self.play_index = self.mark_index
-        # self.display()
 
     def update_play_info(self, play_info):
         '''
         更新歌曲信息
         '''
+        if type(play_info) is str:
+            play_info = [play_info]
         self.play_info = play_info
         self.display()
 

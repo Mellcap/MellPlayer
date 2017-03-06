@@ -82,14 +82,23 @@ def t_watcher():
             if time_remain:
                 if time_remain <= 2:
                     handler_next_song()
-                m, s = divmod(time_remain, 60)
-                time_remain = '%02d:%02d' % (m, s)
-                show_footer(timestamp=time_remain)
+                timestamp = format_timestamp()
+                show_footer(timestamp=timestamp)
         time.sleep(1)
+
+def format_timestamp():
+    time_pos = mell_player.time_pos
+    time_remain = mell_player.time_remaining
+    total_time = time_pos + time_remain
+    pos_m, pos_s = divmod(time_pos, 60)
+    total_m, total_s = divmod(total_time, 60)
+    format_time_pos = '%02d:%02d' % (pos_m, pos_s)
+    format_time_total = '%02d:%02d' % (total_m, total_s)
+    return ' / '.join((format_time_pos, format_time_total))
 
 def show_footer(timestamp):
     timestamp = mell_ui.gen_color(data=timestamp, color='blue')
-    footer = '%s%s%s' % (' '*(mell_ui.screen_width - 8), timestamp,'\r')
+    footer = '%s%s%s' % (' '*(mell_ui.screen_width - 18), timestamp,'\r')
     sys.stdout.write(footer)
     sys.stdout.flush()
             

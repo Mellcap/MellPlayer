@@ -24,6 +24,17 @@ PLAYLIST_FILE = os.path.join(BASE_DIRECTORY, 'playlist.m3u')
 NeteaseApi = Netease()
 UiEvent = UIEvent()
 
+# ===========================
+# Deco
+# ===========================
+
+def show_changing_text(func):
+    def wrapper(*args, **kw):
+        # args[0] == self
+        args[0].show_song_changing()
+        return func(*args, **kw)
+    return wrapper
+
 
 class Player(MPV):
 
@@ -96,7 +107,8 @@ class Player(MPV):
             if self.category_playlist_index < 0:
                 self.category_playlist_index = len(self.category_playlist_ids) - 1
             self.run_playlist()
-    
+
+    @show_changing_text
     def switch_category(self, new_category):
         self.category = new_category
         self.get_category_playlist_ids()
@@ -167,6 +179,9 @@ class Player(MPV):
         self.update_song_info()
         UiEvent.handler_update_playInfo(self.song_info)
 
+    def show_song_changing(self):
+        changing_text = '切换歌曲中...'
+        UiEvent.handler_update_playInfo(changing_text)
 
     def run_playlist(self):
         '''
@@ -251,6 +266,7 @@ class Player(MPV):
             for line in playlist:
                 f.write(line)
         return True
+    
 
 
 # ===========================
