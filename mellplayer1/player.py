@@ -258,6 +258,9 @@ class Player(MPV):
 def mell_logger(loglevel, component, message):
     if loglevel == 'error':
         # print('[{}] {}: {}\r'.format(loglevel, component, message))
+        now = datetime.datetime.now()
+        with open('/Users/zhaoye/.MellPlayer/logger_1.txt', 'a') as f:
+            f.write('%s---%s%s' % (now, component, message))
         play_next_song()
         
 mell_player = Player(log_handler=mell_logger, ytdl=True)
