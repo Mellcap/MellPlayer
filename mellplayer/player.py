@@ -11,6 +11,7 @@ Created on 2017-02-20
 import os
 import time
 import threading
+import datetime
 
 from mellplayer.utils.mpv import MPV
 from mellplayer.api import Netease
@@ -258,9 +259,14 @@ class Player(MPV):
 def mell_logger(loglevel, component, message):
     if loglevel == 'error':
         # print('[{}] {}: {}\r'.format(loglevel, component, message))
-        play_next_song()
+        # with open('~/.MellPlayer/logger_2.txt', 'a') as f:
+        #     f.write('%s--component:%s, message:%s\n' % (now, component, message))
+        refresh_playlist()
         
 mell_player = Player(log_handler=mell_logger, ytdl=True)
 
-def play_next_song():
-    mell_player.next_song()
+def refresh_playlist():
+    # with open('~/.MellPlayer/logger_2.txt', 'a') as f:
+    #     f.write('refresh_playlist\n')
+    mell_player.get_playlist()
+    mell_player.run_player()
