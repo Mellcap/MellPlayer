@@ -87,10 +87,8 @@ def t_watcher():
         time.sleep(1)
 
 def format_timestamp():
-    time_pos = mell_player.time_pos
-    time_remain = mell_player.time_remaining
-    total_time = time_pos + time_remain
-    pos_m, pos_s = divmod(time_pos, 60)
+    total_time =  mell_player.time_pos +  mell_player.time_remaining
+    pos_m, pos_s = divmod(mell_player.time_pos, 60)
     total_m, total_s = divmod(total_time, 60)
     format_time_pos = '%02d:%02d' % (pos_m, pos_s)
     format_time_total = '%02d:%02d' % (total_m, total_s)

@@ -29,13 +29,20 @@ UiEvent = UIEvent()
 # ===========================
 
 def show_changing_text(func):
+    '''
+    加载歌曲显示
+    '''
     def wrapper(*args, **kw):
-        # args[0] == self
-        args[0].show_song_changing()
+        # args[0] == player
+        p = args[0]
+        p.show_song_changing()
         return func(*args, **kw)
     return wrapper
 
 def show_song_info_text(func):
+    '''
+    歌曲详情显示
+    '''
     def wrapper(*args, **kw):
         func(*args, **kw)
         p = args[0]
@@ -195,7 +202,7 @@ class Player(MPV):
         UiEvent.handler_update_playInfo(self.song_info)
 
     def show_song_changing(self):
-        changing_text = '切换歌曲中...'
+        changing_text = '加载歌曲中...'
         UiEvent.handler_update_playInfo(changing_text)
 
     def run_playlist(self):
