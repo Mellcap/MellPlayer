@@ -12,7 +12,7 @@ import os
 
 
 SONG_CATEGORIES = (
-    '流行', '摇滚', '民谣', '说唱', '轻音乐', '爵士', '乡村', '古典', 'R&B/Soul', '电子', '舞曲', '另类/独立',\
+    '流行', '摇滚', '民谣', '说唱', '轻音乐', '爵士', '乡村', '古典', '电子', '舞曲', '另类/独立',\
     '学习', '工作', '午休', '清晨', '夜晚',\
     '华语', '欧美', '日语', '韩语', '粤语', '小语种',\
     '怀旧', '清新', '浪漫', '性感', '治愈', '放松', '兴奋', '快乐', '安静', '思念'
@@ -23,11 +23,11 @@ FOREGROUND_COLOR = {       # 前景色
     'default'      : 246,
     'white'        : 15,
     'blue'         : 39,    
-    'green'        : 34,
+    'green'        : 118,
     'gray'         : 239,
     'red'          : 196,
-    'pink'         : 201
-
+    'pink'         : 201,
+    'yellow'       : 220,
 }
 
 BLANK_CONSTANT = 3
@@ -47,19 +47,32 @@ class UI(object):
         self.top_index = 0
         self.screen_height = TERMINAL_SIZE.lines
         self.screen_width = TERMINAL_SIZE.columns
-        self.title = self._get_title()
+        self.base_title = self._get_base_title()
+        self.title = self.base_title
         self.ui_mode = ui_mode
 
     # =====================
     # UI Displayer
     # =====================
     
-    def _get_title(self):
+    def _get_base_title(self):
         player_name = '%s%s' % (BOLD_STR, self.gen_color('MellPlayer', 'blue'))
         netease = self.gen_color('网易云音乐', 'red')
         divider = self.gen_color(data=r'\\')
         display_items = [player_name, netease]
         return (' %s ' % divider).join(display_items)
+
+    def update_title(self, items=None):
+        if not items:
+            self.title = self.base_title
+        else:
+            divider = self.gen_color(data=r'\\')
+            divider_play = self.gen_color(data=r'>>')
+            items = [self.gen_color(data=i, color='green') for i in items]
+            extend_title = (' %s ' % divider).join(items)
+            extend_title = ' %s %s' % (divider_play, extend_title)
+            self.title = self.base_title + extend_title
+        self.display()
 
     def display(self):
         '''
@@ -95,7 +108,7 @@ class UI(object):
     def gen_category(self, category, is_markline=False):
         if is_markline:
             category = self.gen_mark(category)
-            category = self.gen_color(data=category, color='pink')
+            category = self.gen_color(data=category, color='yellow')
         else:
             category = '%s%s' % (' '*5, category)
             category = self.gen_color(data=category, color='')
@@ -105,7 +118,7 @@ class UI(object):
         return '  ➣  %s' % category
 
     def gen_playline(self):
-        complete_info = [self.gen_color(data=p, color='pink') for p in self.play_info]
+        complete_info = [self.gen_color(data=p, color='yellow') for p in self.play_info]
         divider = self.gen_color(data='|', color='')
         return ('  %s  ' % divider).join(complete_info)
 

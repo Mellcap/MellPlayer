@@ -14,3 +14,6 @@ class UIEvent(object):
 
     def handler_update_playInfo(self, play_info):
         mell_ui.update_play_info(play_info)
+
+    def handler_update_title(self, items):
+        mell_ui.update_title(items)

@@ -53,6 +53,17 @@ def show_song_info_text(func):
             time.sleep(1)
     return wrapper
 
+def update_title_text(func):
+    '''
+    更新title
+    '''
+    def wrapper(*args, **kw):
+        # args[0] == player
+        func(*args, **kw)
+        p = args[0]
+        p.update_title()
+    return wrapper
+
 
 class Player(MPV):
 
@@ -65,6 +76,7 @@ class Player(MPV):
         self.playlist_index = 0
         self.playlist_detail = None
         self.song_info = ''
+        self.song_br = 0
         self.is_quit = False
 
     # ===========================
@@ -189,6 +201,7 @@ class Player(MPV):
             play_detail = self.playlist_detail.get(self.playlist_ids[self.playlist_index], None)
             if play_detail:
                 self.song_info = [play_detail.get('song_name', ''), play_detail.get('song_artists', '')]
+                self.song_br = play_detail.get('song_br', 0)
 
     def get_play_info(self):
         '''
@@ -200,6 +213,12 @@ class Player(MPV):
     def show_song_info(self):
         self.update_song_info()
         UiEvent.handler_update_playInfo(self.song_info)
+        self.update_title()
+
+    def update_title(self):
+        song_br = '%s%s' % (int(int(self.song_br)/1000), 'Kbps')
+        volume = 'Volume: %s%s' % (int(self.get_volume()), '%')
+        UiEvent.handler_update_title(items=[song_br, volume])
 
     def show_song_changing(self):
         changing_text = '加载歌曲中...'
@@ -234,7 +253,8 @@ class Player(MPV):
     # ===========================
     # Volume Controller
     # ===========================
-    
+
+    @update_title_text
     def reduce_volume(self, step=10):
         '''
         减小音量
@@ -242,6 +262,7 @@ class Player(MPV):
         volume = max(self.volume - step, 0)
         self.volume = volume
 
+    @update_title_text
     def increase_volume(self, step=10):
         '''
         增加音量
@@ -249,11 +270,15 @@ class Player(MPV):
         volume = min(self.volume + step, 100)
         self.volume = volume
 
+    @update_title_text
     def mute_volume(self):
         '''
         静音
         '''
         self.mute = not self.mute
+
+    def get_volume(self):
+        return self.volume
 
 
     # ===========================
