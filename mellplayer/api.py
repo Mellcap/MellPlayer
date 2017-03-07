@@ -11,6 +11,7 @@ import requests
 import json
 
 from mellplayer.utils.encrypt_utils import encrypted_request
+from mellplayer.mell_logger import mell_logger
 
 
 class Netease(object):
@@ -112,7 +113,7 @@ class Netease(object):
                 res = {
                     'lyric': data['lrc']['lyric']
                 }
-            elif 'nolyric' in data:
+            else:
                 res = {
                     'lyric': 'no_lyric'
                 }
