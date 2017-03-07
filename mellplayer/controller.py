@@ -60,11 +60,19 @@ def handler_mute_volume():
     mell_player.mute_volume()
 
 def handler_lyric():
-    if mell_ui.ui_mode == 'home':
+    if mell_ui.ui_mode == 'home' and mell_player.time_remaining:
         mell_ui.ui_mode = 'lyric'
-        mell_player.get_lyric_detail()
+        handler_lyric_display()
     elif mell_ui.ui_mode == 'lyric':
+        mell_ui.display()
         mell_ui.ui_mode = 'home'
+
+def handler_lyric_display():
+    song_id = mell_player.playlist_ids[mell_player.playlist_index]
+    if mell_player.lyric_id != song_id:
+        mell_lyric_ui.initial_lyric()
+    mell_player.get_lyric_detail()
+    mell_lyric_ui.display()
 
 def handler_help():
     if mell_ui.ui_mode == 'home':

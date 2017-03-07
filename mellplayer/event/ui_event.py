@@ -27,8 +27,7 @@ class UIEvent(object):
     # ===========================
 
     def handler_initial_lyric(self):
-        self.lyric_times = None
-        self.lyric_lines = None
+        mell_lyric_ui.initial_lyric()
         
     def handler_parse_lyric(self, origin_lyric):
         self.handler_initial_lyric()

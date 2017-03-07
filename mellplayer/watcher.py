@@ -77,10 +77,9 @@ def t_watcher():
     while not mell_player.is_quit:
         if not mell_player.pause:
             time_remain = mell_player.time_remaining
-            if mell_ui.ui_mode == 'lyric':
-                mell_logger.info('roll lyric. time_pos: %s' % '%s' % int(mell_player.time_pos))
-                mell_lyric_ui.roll(int(mell_player.time_pos))
             if time_remain:
+                if mell_ui.ui_mode == 'lyric':
+                    mell_lyric_ui.roll(int(mell_player.time_pos))
                 if time_remain <= 2:
                     handler_next_song()
                 timestamp = format_timestamp()
@@ -88,12 +87,16 @@ def t_watcher():
         time.sleep(1)
 
 def format_timestamp():
-    total_time =  mell_player.time_pos +  mell_player.time_remaining
-    pos_m, pos_s = divmod(mell_player.time_pos, 60)
-    total_m, total_s = divmod(total_time, 60)
-    format_time_pos = '%02d:%02d' % (pos_m, pos_s)
-    format_time_total = '%02d:%02d' % (total_m, total_s)
-    return ' / '.join((format_time_pos, format_time_total))
+    time_pos = mell_player.time_pos
+    time_remain = mell_player.time_remaining
+    if time_pos and time_remain:
+        total_time = time_pos + time_remain
+        pos_m, pos_s = divmod(mell_player.time_pos, 60)
+        total_m, total_s = divmod(total_time, 60)
+        format_time_pos = '%02d:%02d' % (pos_m, pos_s)
+        format_time_total = '%02d:%02d' % (total_m, total_s)
+        return ' / '.join((format_time_pos, format_time_total))
+    return False
 
 def show_footer(timestamp):
     timestamp = mell_ui.gen_color(data=timestamp, color='blue')
