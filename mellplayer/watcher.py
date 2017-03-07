@@ -77,8 +77,9 @@ def t_watcher():
     while not mell_player.is_quit:
         if not mell_player.pause:
             time_remain = mell_player.time_remaining
-            # if mell_ui.ui_mode == 'lyric':
-            #     mell_lyric_ui.roll(mell_player.time_pos)
+            if mell_ui.ui_mode == 'lyric':
+                mell_logger.info('roll lyric. time_pos: %s' % '%s' % int(mell_player.time_pos))
+                mell_lyric_ui.roll(int(mell_player.time_pos))
             if time_remain:
                 if time_remain <= 2:
                     handler_next_song()

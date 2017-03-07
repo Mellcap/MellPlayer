@@ -77,6 +77,7 @@ class Player(MPV):
         self.playlist_detail = None
         self.song_info = ''
         self.song_br = 0
+        self.lyric_id = 0
         self.is_quit = False
 
     # ===========================
@@ -192,6 +193,17 @@ class Player(MPV):
                 'song_br': song_detail.get('song_br', None)
             }
             self.playlist_detail[song_id].update(song_info)
+
+    def get_lyric_detail(self):
+        '''
+        获取歌词详情
+        '''
+        song_id = self.playlist_ids[self.playlist_index]
+        if self.lyric_id != song_id:
+            self.lyric_id = song_id
+            data = NeteaseApi.lyric_detail(song_id=song_id)
+            lyric_detail = NeteaseApi.parse_info(data=data, parse_type='lyric_detail')['lyric']
+            UiEvent.handler_parse_lyric(origin_lyric=lyric_detail)
 
     def update_song_info(self):
         '''

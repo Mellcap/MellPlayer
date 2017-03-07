@@ -9,6 +9,9 @@ Created on 2017-02-21
 '''
 
 import os
+import re
+
+from mellplayer.mell_logger import mell_logger
 
 
 SONG_CATEGORIES = (
@@ -293,3 +296,4 @@ def format_minute2second(timestamp):
 
 mell_ui = UI()
 mell_help_ui = HelpUI()
+mell_lyric_ui = LyricUI()

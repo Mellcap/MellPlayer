@@ -10,7 +10,8 @@ Created on 2017-03-05
 import threading
 
 from mellplayer.player import mell_player
-from mellplayer.ui import mell_ui, mell_help_ui, SONG_CATEGORIES
+from mellplayer.ui import mell_ui, mell_help_ui, mell_lyric_ui, SONG_CATEGORIES
+from mellplayer.mell_logger import mell_logger
 
 
 # ===========================
@@ -59,7 +60,11 @@ def handler_mute_volume():
     mell_player.mute_volume()
 
 def handler_lyric():
-    pass
+    if mell_ui.ui_mode == 'home':
+        mell_ui.ui_mode = 'lyric'
+        mell_player.get_lyric_detail()
+    elif mell_ui.ui_mode == 'lyric':
+        mell_ui.ui_mode = 'home'
 
 def handler_help():
     if mell_ui.ui_mode == 'home':
