@@ -227,7 +227,8 @@ class HelpUI(UI):
         display_title = '\n%s%s' % (' '*5, self.title)
         display_lines.append(display_title)
         for key, help_line in HELP_LINES.items():
-            display_lines.append('%s%s' % (' '*5, help_line))
+            colored_help_line = self.color_line(key=key, line=help_line)
+            display_lines.append('%s%s' % (' '*5, colored_help_line))
 
         # fill blanks
         all_lines = len(HELP_LINES) + BLANK_CONSTANT
@@ -236,6 +237,12 @@ class HelpUI(UI):
         # add tail
         display_lines = self.add_tail(source_list=display_lines, tail='\r')
         print('\n'.join(display_lines))
+
+    def color_line(self, key, line):
+        if key.startswith('control'):
+            return self.gen_color(data='%s%s' % (BOLD_STR, line), color='yellow')
+        else:
+            return self.gen_color(data=line)
 
 # =====================
 # LyricUI
