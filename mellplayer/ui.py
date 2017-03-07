@@ -263,6 +263,7 @@ class LyricUI(UI):
     def parse_lyric(self, origin_lyric):
         compiler = re.compile('\[(.+)\](.+?)\n')
         format_lyric = compiler.findall(origin_lyric)
+        # mell_logger.debug('format_lyric: %s' % format_lyric)
         if format_lyric:
             self.lyric_times = [format_minute2second(l[0]) for l in format_lyric]
             self.lyric_lines = [l[1] for l in format_lyric]
@@ -285,9 +286,16 @@ class LyricUI(UI):
 
     def roll(self, timestamp):
         lyric_times = self.lyric_times
-        if lyric_times and timestamp in lyric_times:
-            lyric_index = lyric_times.index(timestamp)
-            self.lyric_display_lines = self.lyric_lines[:(lyric_index + 1)]
+        if lyric_times:
+            if timestamp in lyric_times:
+                lyric_index = lyric_times.index(timestamp) + 1
+            else:
+                lyric_times_copy = lyric_times[:]
+                lyric_times_copy.append(timestamp)
+                lyric_times_copy.sort()
+                lyric_index = lyric_times_copy.index(timestamp)
+            self.lyric_display_lines = self.lyric_lines[:lyric_index]
+            mell_logger.debug('display_lines: %s' % self.lyric_display_lines)
             self.display()
 
     def initial_lyric(self):
