@@ -256,33 +256,43 @@ class LyricUI(UI):
     def __init__(self):
         
         super(LyricUI, self).__init__(ui_mode='lyric')
+        self.has_lyric = True
         self.lyric_times = None
         self.lyric_lines = ''
         self.lyric_display_lines = ''
 
     def parse_lyric(self, origin_lyric):
-        compiler = re.compile('\[(.+)\](.+?)\n')
-        format_lyric = compiler.findall(origin_lyric)
-        # mell_logger.debug('format_lyric: %s' % format_lyric)
-        if format_lyric:
-            self.lyric_times = [format_minute2second(l[0]) for l in format_lyric]
-            self.lyric_lines = [l[1] for l in format_lyric]
+        if origin_lyric == 'no_lyric':
+            self.has_lyric = False
+        else:
+            compiler = re.compile('\[(.+)\](.+?)\n')
+            format_lyric = compiler.findall(origin_lyric)
+            # mell_logger.debug('format_lyric: %s' % format_lyric)
+            if format_lyric:
+                self.lyric_times = [format_minute2second(l[0]) for l in format_lyric]
+                self.lyric_lines = [l[1] for l in format_lyric]
 
     def display(self):
         display_lines = ['\r']
         display_title = '\n%s%s' % (' '*5, self.title)
         display_lines.append(display_title)
-        if self.lyric_lines:
+        if not self.has_lyric:
+            self.display_center(text='没有找到歌词')
+        elif not self.lyric_display_lines:
+            self.display_center(text='歌词加载中')
+        elif self.lyric_lines:
             for line in self.lyric_display_lines:
                 display_lines.append('%s' % line)
-                
-        # fill blanks
-        all_lines = len(self.lyric_display_lines) + BLANK_CONSTANT
-        if all_lines < self.screen_height:
-            display_lines = self.fill_blanks(display_lines, all_lines=all_lines)
-        # add tail
-        display_lines = self.add_tail(source_list=display_lines, tail='\r')
-        print('\n'.join(display_lines) + '\r')
+            # fill blanks
+            all_lines = len(self.lyric_display_lines) + BLANK_CONSTANT
+            if all_lines < self.screen_height:
+                display_lines = self.fill_blanks(display_lines, all_lines=all_lines)
+            # add tail
+            display_lines = self.add_tail(source_list=display_lines, tail='\r')
+            print('\n'.join(display_lines) + '\r')
+
+    def display_center(self, text):
+        print(text)
 
     def roll(self, timestamp):
         lyric_times = self.lyric_times
@@ -299,6 +309,7 @@ class LyricUI(UI):
             self.display()
 
     def initial_lyric(self):
+        self.has_lyric = True
         self.lyric_times = None
         self.lyric_lines = ''
         self.lyric_display_lines = ''

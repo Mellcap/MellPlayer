@@ -114,7 +114,7 @@ class Netease(object):
                 }
             elif 'nolyric' in data:
                 res = {
-                    'lyric': u'没有找到歌词'
+                    'lyric': 'no_lyric'
                 }
         elif parse_type == 'song_detail_new':
             res = {d['id']: {
