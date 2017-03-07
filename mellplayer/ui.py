@@ -277,9 +277,11 @@ class LyricUI(UI):
         display_title = '\n%s%s' % (' '*5, self.title)
         display_lines.append(display_title)
         if not self.has_lyric:
-            self.display_center(text='没有找到歌词')
+            text = '没有找到歌词...'
+            self.display_center(text=text, display_lines=display_lines)
         elif not self.lyric_display_lines:
-            self.display_center(text='歌词加载中')
+            text = '歌词加载中...'
+            self.display_center(text=text, display_lines=display_lines)
         elif self.lyric_lines:
             for line in self.lyric_display_lines:
                 display_lines.append('%s' % line)
@@ -291,8 +293,15 @@ class LyricUI(UI):
             display_lines = self.add_tail(source_list=display_lines, tail='\r')
             print('\n'.join(display_lines) + '\r')
 
-    def display_center(self, text):
-        print(text)
+    def display_center(self, text, display_lines):
+        # fill blanks
+        all_lines = 1 + BLANK_CONSTANT
+        display_lines.append('%s' % text)
+        if all_lines < self.screen_height:
+            display_lines = self.fill_blanks(display_lines, all_lines=all_lines)
+        # add tail
+        display_lines = self.add_tail(source_list=display_lines, tail='\r')
+        print('\n'.join(display_lines) + '\r')
 
     def roll(self, timestamp):
         lyric_times = self.lyric_times
