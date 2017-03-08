@@ -181,12 +181,16 @@ class UI(object):
     def add_tail(self, source_list, tail):
         return map(lambda x: '%s%s' % (str(x), tail), source_list)
 
-    def fill_blanks(self, display_lines, all_lines=ALL_LINES):
+    def fill_blanks(self, display_lines, all_lines=ALL_LINES, position='after'):
         '''
         补全空白行
         '''
         delta_lines = self.screen_height - all_lines
-        display_lines += [' ' for i in range(delta_lines)]
+        delta_blanks = [' ' for i in range(delta_lines)]
+        if position == 'after':
+            display_lines += delta_blanks
+        elif position == 'before':
+            display_lines = delta_blanks + display_lines
         return display_lines
 
     
@@ -291,7 +295,7 @@ class LyricUI(UI):
             display_index = all_lines - self.screen_height
             lyric_display_lines = lyric_display_lines[display_index:]
         else:
-            lyric_display_lines = self.fill_blanks(lyric_display_lines, all_lines=all_lines)
+            lyric_display_lines = self.fill_blanks(lyric_display_lines, all_lines=all_lines, position='before')
         return lyric_display_lines
 
     def display_lyric(self, display_lines):
