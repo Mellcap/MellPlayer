@@ -314,7 +314,6 @@ class LyricUI(UI):
                 lyric_times_copy.sort()
                 lyric_index = lyric_times_copy.index(timestamp)
             self.lyric_display_lines = self.lyric_lines[:lyric_index]
-            mell_logger.debug('display_lines: %s' % self.lyric_display_lines)
             self.display()
 
     def initial_lyric(self):
