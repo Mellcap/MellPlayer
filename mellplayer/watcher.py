@@ -7,6 +7,7 @@ MellPlayer Watcher
 Created on 2017-03-05
 @author: Mellcap
 '''
+
 import sys
 import time
 import queue
@@ -76,22 +77,21 @@ def key_watcher():
 def t_watcher():
     while not mell_player.is_quit:
         if not mell_player.pause:
+            time_pos = mell_player.time_pos
             time_remain = mell_player.time_remaining
-            if time_remain:
+            if time_pos and time_remain:
                 if mell_ui.ui_mode == 'lyric':
-                    mell_lyric_ui.roll(int(mell_player.time_pos))
+                    mell_lyric_ui.roll(int(time_pos))
                 if time_remain <= 2:
                     handler_next_song()
-                timestamp = format_timestamp()
+                timestamp = format_timestamp(time_pos, time_remain)
                 show_footer(timestamp=timestamp)
         time.sleep(1)
 
-def format_timestamp():
-    time_pos = mell_player.time_pos
-    time_remain = mell_player.time_remaining
+def format_timestamp(time_pos, time_remain):
     if time_pos and time_remain:
         total_time = time_pos + time_remain
-        pos_m, pos_s = divmod(mell_player.time_pos, 60)
+        pos_m, pos_s = divmod(time_pos, 60)
         total_m, total_s = divmod(total_time, 60)
         format_time_pos = '%02d:%02d' % (pos_m, pos_s)
         format_time_total = '%02d:%02d' % (total_m, total_s)

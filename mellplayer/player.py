@@ -17,52 +17,13 @@ from mellplayer.utils.mpv import MPV
 from mellplayer.api import Netease
 from mellplayer.directory import BASE_DIRECTORY
 from mellplayer.event.ui_event import UIEvent
+from mellplayer.deco import show_changing_text, show_song_info_text, update_title_text
 from mellplayer.mell_logger import mell_logger
 
 PLAYLIST_MAX = 50
-PLAYLIST_FILE = os.path.join(BASE_DIRECTORY, 'playlist.m3u')
+# PLAYLIST_FILE = os.path.join(BASE_DIRECTORY, 'playlist.m3u')
 NeteaseApi = Netease()
 UiEvent = UIEvent()
-
-# ===========================
-# Deco
-# ===========================
-
-def show_changing_text(func):
-    '''
-    加载歌曲显示
-    '''
-    def wrapper(*args, **kw):
-        # args[0] == player
-        p = args[0]
-        p.show_song_changing()
-        return func(*args, **kw)
-    return wrapper
-
-def show_song_info_text(func):
-    '''
-    歌曲详情显示
-    '''
-    def wrapper(*args, **kw):
-        func(*args, **kw)
-        p = args[0]
-        while 1:
-            if p.time_pos:
-                p.show_song_info()
-                break
-            time.sleep(1)
-    return wrapper
-
-def update_title_text(func):
-    '''
-    更新title
-    '''
-    def wrapper(*args, **kw):
-        # args[0] == player
-        func(*args, **kw)
-        p = args[0]
-        p.update_title()
-    return wrapper
 
 
 class Player(MPV):
@@ -179,7 +140,7 @@ class Player(MPV):
     def update_playlist_url(self):
         '''
         旧的mp3_url有很多无法播放，采用新的接口
-        新接口mp3_url已知问题：有时间戳，经过一段时间失效
+        新接口mp3_url：有时间戳，经过一段时间失效，已在logger中refresh_playlist
         '''
         song_ids = self.playlist_ids
         data = NeteaseApi.song_detail_new(song_ids)
@@ -217,22 +178,31 @@ class Player(MPV):
 
     def get_play_info(self):
         '''
-        待作废接口
+        待作废
         '''
         self.update_song_info()
         return self.song_info
 
     def show_song_info(self):
+        '''
+        歌曲信息、音量等信息
+        '''
         self.update_song_info()
         UiEvent.handler_update_playInfo(self.song_info)
         self.update_title()
 
     def update_title(self):
+        '''
+        更新title: 码率和音量
+        '''
         song_br = '%s%s' % (int(int(self.song_br)/1000), 'Kbps')
         volume = 'Volume: %s%s' % (int(self.get_volume()), '%')
         UiEvent.handler_update_title(items=[song_br, volume])
 
     def show_song_changing(self):
+        '''
+        加载歌曲loading
+        '''
         changing_text = '加载歌曲中...'
         UiEvent.handler_update_playInfo(changing_text)
 
