@@ -274,6 +274,8 @@ class LyricUI(UI):
             if format_lyric:
                 self.lyric_times = [format_minute2second(l[0]) for l in format_lyric]
                 self.lyric_lines = [l[1] for l in format_lyric]
+            else:
+                self.has_lyric = False
 
     def display(self):
         display_lines = ['\r']
