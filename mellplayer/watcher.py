@@ -89,14 +89,10 @@ def t_watcher():
         time.sleep(1)
 
 def format_timestamp(time_pos, time_remain):
-    if time_pos and time_remain:
-        total_time = time_pos + time_remain
-        pos_m, pos_s = divmod(time_pos, 60)
-        total_m, total_s = divmod(total_time, 60)
-        format_time_pos = '%02d:%02d' % (pos_m, pos_s)
-        format_time_total = '%02d:%02d' % (total_m, total_s)
-        return ' / '.join((format_time_pos, format_time_total))
-    return False
+    total_time = time_pos + time_remain
+    format_time_pos = '%02d:%02d' % divmod(time_pos, 60)
+    format_time_total = '%02d:%02d' % divmod(total_time, 60)
+    return ' / '.join((format_time_pos, format_time_total))
 
 def show_footer(timestamp):
     timestamp = mell_ui.gen_color(data=timestamp, color='blue')
