@@ -23,7 +23,7 @@ SONG_CATEGORIES = (
 
 # 所有颜色 https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
 FOREGROUND_COLOR = {       # 前景色
-    'default'      : 246,
+    'default'      : 249,
     'white'        : 15,
     'blue'         : 39,    
     'green'        : 118,
@@ -31,6 +31,7 @@ FOREGROUND_COLOR = {       # 前景色
     'red'          : 196,
     'pink'         : 201,
     'yellow'       : 220,
+    'light_gray'   : 250,
 }
 
 BLANK_CONSTANT = 3
@@ -255,7 +256,7 @@ class HelpUI(UI):
         if key.startswith('control'):
             return self.gen_color(data='%s%s' % (BOLD_STR, line), color='yellow')
         else:
-            return self.gen_color(data=line)
+            return self.gen_color(data=line, color='light_gray')
 
 # =====================
 # LyricUI
@@ -316,7 +317,7 @@ class LyricUI(UI):
         for line in lyric_display_lines:
             # 居中
             line = str_center(string=line, screen_width=self.screen_width)
-            line = self.gen_color(data=line, color='default')
+            line = self.gen_color(data=line, color='light_gray')
             display_lines.append(line)
         display_lines = self.add_tail(source_list=display_lines, tail='\r')
         print('\n'.join(display_lines) + '\r')
