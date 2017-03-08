@@ -245,7 +245,7 @@ class Player(MPV):
         self.get_playlist()
         self.run_player()
 
-    @show_song_info_text
+    # @show_song_info_text
     def run_player(self):
         '''
         启动播放器
@@ -260,6 +260,7 @@ class Player(MPV):
                 # @TODO add logger
                 pass
             self.play(song_url)
+            self.show_song_info()
 
 
     # ===========================
