@@ -71,7 +71,7 @@ def handler_lyric_display():
     song_id = mell_player.playlist_ids[mell_player.playlist_index]
     if mell_player.lyric_id != song_id:
         mell_lyric_ui.initial_lyric()
-    mell_player.get_lyric_detail()
+        mell_player.get_lyric_detail()
     mell_lyric_ui.display()
 
 def handler_help():

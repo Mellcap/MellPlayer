@@ -267,7 +267,6 @@ class LyricUI(UI):
         else:
             compiler = re.compile('\[(.+)\](.+?)\n')
             format_lyric = compiler.findall(origin_lyric)
-            # mell_logger.debug('format_lyric: %s' % format_lyric)
             if format_lyric:
                 self.lyric_times = [format_minute2second(l[0]) for l in format_lyric]
                 self.lyric_lines = [l[1] for l in format_lyric]
@@ -285,16 +284,24 @@ class LyricUI(UI):
         elif self.lyric_lines:
             self.display_lyric(display_lines=display_lines)
 
+    def make_display_lines(self, display_lines):
+        all_lines = len(self.lyric_display_lines) + BLANK_CONSTANT
+        lyric_display_lines = self.lyric_display_lines
+        if all_lines >= self.screen_height:
+            display_index = all_lines - self.screen_height
+            lyric_display_lines = lyric_display_lines[display_index:]
+        else:
+            lyric_display_lines = self.fill_blanks(lyric_display_lines, all_lines=all_lines)
+        return lyric_display_lines
+
     def display_lyric(self, display_lines):
-        for line in self.lyric_display_lines:
-            # 居中-解决中英文占长度不同的问题--(除中英文有问题)
-            line = line.center(self.screen_width + len(line) - len(line.encode('gb2312')))
+        lyric_display_lines = self.make_display_lines(display_lines)
+        # display
+        for line in lyric_display_lines:
+            # 居中-@TODO 需要解决不同文字长度不同
+            line = line.center(self.screen_width - len(line))
             line = self.gen_color(data=line, color='default')
             display_lines.append(line)
-        # fill blanks
-        all_lines = len(self.lyric_display_lines) + BLANK_CONSTANT
-        if all_lines < self.screen_height:
-            display_lines = self.fill_blanks(display_lines, all_lines=all_lines)
         # add tail
         display_lines = self.add_tail(source_list=display_lines, tail='\r')
         print('\n'.join(display_lines) + '\r')
