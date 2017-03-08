@@ -283,15 +283,21 @@ class LyricUI(UI):
             text = '歌词加载中...'
             self.display_center(text=text, display_lines=display_lines)
         elif self.lyric_lines:
-            for line in self.lyric_display_lines:
-                display_lines.append('%s' % line)
-            # fill blanks
-            all_lines = len(self.lyric_display_lines) + BLANK_CONSTANT
-            if all_lines < self.screen_height:
-                display_lines = self.fill_blanks(display_lines, all_lines=all_lines)
-            # add tail
-            display_lines = self.add_tail(source_list=display_lines, tail='\r')
-            print('\n'.join(display_lines) + '\r')
+            self.display_lyric(display_lines=display_lines)
+
+    def display_lyric(self, display_lines):
+        for line in self.lyric_display_lines:
+            # 居中-解决中英文占长度不同的问题--(除中英文有问题)
+            line = line.center(self.screen_width + len(line) - len(line.encode('gb2312')))
+            line = self.gen_color(data=line, color='default')
+            display_lines.append(line)
+        # fill blanks
+        all_lines = len(self.lyric_display_lines) + BLANK_CONSTANT
+        if all_lines < self.screen_height:
+            display_lines = self.fill_blanks(display_lines, all_lines=all_lines)
+        # add tail
+        display_lines = self.add_tail(source_list=display_lines, tail='\r')
+        print('\n'.join(display_lines) + '\r')
 
     def display_center(self, text, display_lines):
         # fill blanks
