@@ -71,7 +71,7 @@ class UI(object):
         else:
             divider = self.gen_color(data=r'\\')
             divider_play = self.gen_color(data=r'>>')
-            items = [self.gen_color(data=i, color='green') for i in items]
+            items = [self.gen_color(data=i, color='pink') for i in items]
             extend_title = (' %s ' % divider).join(items)
             extend_title = ' %s %s' % (divider_play, extend_title)
             self.title = self.base_title + extend_title
@@ -302,8 +302,7 @@ class LyricUI(UI):
         lyric_display_lines = self.make_display_lines(display_lines)
         # display
         for line in lyric_display_lines:
-            # 居中-@TODO 需要解决不同文字长度不同
-            line = line.center(self.screen_width - len(line))
+            line = str_center(string=line, screen_width=self.screen_width)
             line = self.gen_color(data=line, color='default')
             display_lines.append(line)
         # add tail
@@ -312,7 +311,12 @@ class LyricUI(UI):
 
     def display_center(self, text, display_lines):
         # fill blanks
-        all_lines = 1 + BLANK_CONSTANT
+        constant_lines = 1 + BLANK_CONSTANT
+        delta_length = int((self.screen_height - constant_lines) / 2)
+        all_lines = constant_lines + delta_length
+        display_lines += [' ' for i in range(delta_length)]
+        mell_logger.debug('display_lines: %s' % display_lines)
+        text = str_center(string=text, screen_width=self.screen_width)
         display_lines.append('%s' % text)
         if all_lines < self.screen_height:
             display_lines = self.fill_blanks(display_lines, all_lines=all_lines)
@@ -343,7 +347,23 @@ class LyricUI(UI):
 def format_minute2second(timestamp):
     stamp_list = timestamp[:5].split(':')
     return int(stamp_list[0]) * 60 + int(stamp_list[1])
-    
+
+def str_len(string):
+    '''
+    计算string实际占字符长
+    '''
+    row_l = len(string)
+    utf8_l = len(string.encode('utf-8'))
+    return int((utf8_l - row_l) / 2 + row_l)
+
+def str_center(string, screen_width, fill_char=None):
+    '''
+    字符居中
+    '''
+    delta_width = screen_width - (str_len(string) - len(string))
+    if fill_char:
+        return string.center(delta_width, fill_char)
+    return string.center(delta_width)
 
 
 # =====================

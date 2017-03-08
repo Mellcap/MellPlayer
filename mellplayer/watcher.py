@@ -100,7 +100,7 @@ def format_timestamp():
 
 def show_footer(timestamp):
     timestamp = mell_ui.gen_color(data=timestamp, color='blue')
-    footer = '%s%s%s' % (' '*(mell_ui.screen_width - 18), timestamp,'\r')
+    footer = timestamp.rjust(mell_ui.screen_width + 13) + '\r'
     sys.stdout.write(footer)
     sys.stdout.flush()
             
