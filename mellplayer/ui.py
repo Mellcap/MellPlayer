@@ -109,6 +109,9 @@ class UI(object):
         print('\n'.join(display_lines))
         
     def gen_category(self, category, is_markline=False):
+        '''
+        生成分类样式
+        '''
         if is_markline:
             category = self.gen_mark(category)
             category = self.gen_color(data=category, color='yellow')
@@ -121,6 +124,9 @@ class UI(object):
         return '  ➣  %s' % category
 
     def gen_playline(self):
+        '''
+        生成歌曲展示行
+        '''
         complete_info = [self.gen_color(data=p, color='yellow') for p in self.play_info]
         divider = self.gen_color(data='|', color='')
         return ('  %s  ' % divider).join(complete_info)
@@ -201,27 +207,27 @@ class UI(object):
 HELP_LINES = {
     'help_space_1':    '',
     'control_move':    '操作',
-    'next_line':       '[j]     [Next Line]         ---> 下',
-    'prev_line':       '[k]     [Prev Line]         ---> 上',
-    'quit':            '[q]     [Quit]              ---> 退出',
+    'next_line':       '[j]     [Next Line]         --->  下',
+    'prev_line':       '[k]     [Prev Line]         --->  上',
+    'quit':            '[q]     [Quit]              --->  退出',
     'help_space_2':    '',
     'control_music':   '音乐',
-    'space':           '[space] [Start/Pause]       ---> 播放／暂停',
-    'next_song':       '[n]     [Next Song]         ---> 下一曲',
-    'prev_song':       '[p]     [Prev Song]         ---> 上一曲',
-    'next_playlist':   '[f]     [Forward Playlist]  ---> 下个歌单',
-    'prev_playlist':   '[b]     [Backward Playlist] ---> 上个歌单',
+    'space':           '[space] [Start/Pause]       --->  播放／暂停',
+    'next_song':       '[n]     [Next Song]         --->  下一曲',
+    'prev_song':       '[p]     [Prev Song]         --->  上一曲',
+    'next_playlist':   '[f]     [Forward Playlist]  --->  下个歌单',
+    'prev_playlist':   '[b]     [Backward Playlist] --->  上个歌单',
     'help_space_3':    '',
     'control_volume':  '音量',
-    'reduce_volume':   '[-]     [Reduce Volume]     ---> 减小音量',
-    'increase_volume': '[=]     [Increase Volume    ---> 增加音量',
-    'mute':            '[m]     [Mute]              ---> 静音',
-    # 'help_space_4': '',
-    # 'control_lyric': '歌词',
-    # 'lyric': '[l] [Show/Hide Lyric] ---> 显示／关闭歌词',
+    'reduce_volume':   '[-]     [Reduce Volume]     --->  减小音量',
+    'increase_volume': '[=]     [Increase Volume    --->  增加音量',
+    'mute':            '[m]     [Mute]              --->  静音',
+    'help_space_4': '',
+    'control_lyric': '歌词',
+    'lyric':           '[l]     [Show/Hide Lyric]   --->  显示／关闭歌词',
     'help_space_5': '',
     'control_help': '帮助',
-    'help':            '[h]     [Show/Hide Help]    ---> 显示／关闭帮助'
+    'help':            '[h]     [Show/Hide Help]    --->  显示／关闭帮助'
 }
 
 class HelpUI(UI):
@@ -258,7 +264,6 @@ class HelpUI(UI):
 class LyricUI(UI):
     
     def __init__(self):
-        
         super(LyricUI, self).__init__(ui_mode='lyric')
         self.has_lyric = True
         self.lyric_times = None
@@ -266,6 +271,9 @@ class LyricUI(UI):
         self.lyric_display_lines = ''
 
     def parse_lyric(self, origin_lyric):
+        '''
+        解析歌词
+        '''
         if origin_lyric == 'no_lyric':
             self.has_lyric = False
         else:
@@ -282,15 +290,18 @@ class LyricUI(UI):
         display_title = '\n%s%s' % (' '*5, self.title)
         display_lines.append(display_title)
         if not self.has_lyric:
-            text = '没有找到歌词...'
+            text = '求歌词...'
             self.display_center(text=text, display_lines=display_lines)
         elif not self.lyric_display_lines:
-            text = '歌词加载中...'
+            text = '貌似Ta还没开嗓...'
             self.display_center(text=text, display_lines=display_lines)
         elif self.lyric_lines:
             self.display_lyric(display_lines=display_lines)
 
     def make_display_lines(self, display_lines):
+        '''
+        生成展示歌词
+        '''
         all_lines = len(self.lyric_display_lines) + BLANK_CONSTANT
         lyric_display_lines = self.lyric_display_lines
         if all_lines >= self.screen_height:
@@ -302,27 +313,19 @@ class LyricUI(UI):
 
     def display_lyric(self, display_lines):
         lyric_display_lines = self.make_display_lines(display_lines)
-        # display
         for line in lyric_display_lines:
+            # 居中
             line = str_center(string=line, screen_width=self.screen_width)
             line = self.gen_color(data=line, color='default')
             display_lines.append(line)
-        # add tail
         display_lines = self.add_tail(source_list=display_lines, tail='\r')
         print('\n'.join(display_lines) + '\r')
 
     def display_center(self, text, display_lines):
-        # fill blanks
-        constant_lines = 1 + BLANK_CONSTANT
-        delta_length = int((self.screen_height - constant_lines) / 2)
-        all_lines = constant_lines + delta_length
-        display_lines += [' ' for i in range(delta_length)]
-        mell_logger.debug('display_lines: %s' % display_lines)
-        text = str_center(string=text, screen_width=self.screen_width)
-        display_lines.append('%s' % text)
-        if all_lines < self.screen_height:
-            display_lines = self.fill_blanks(display_lines, all_lines=all_lines)
-        # add tail
+        blank_length = self.screen_height - BLANK_CONSTANT
+        blank_lines = [' ' for i in range(blank_length)]
+        blank_lines[int(blank_length / 2)] = str_center(string=text, screen_width=self.screen_width)
+        display_lines.extend(blank_lines)
         display_lines = self.add_tail(source_list=display_lines, tail='\r')
         print('\n'.join(display_lines) + '\r')
 
@@ -345,7 +348,11 @@ class LyricUI(UI):
         self.lyric_lines = ''
         self.lyric_display_lines = ''
 
+        
+# =====================
 # Basic Method
+# =====================
+
 def format_minute2second(timestamp):
     stamp_list = timestamp[:5].split(':')
     return int(stamp_list[0]) * 60 + int(stamp_list[1])
