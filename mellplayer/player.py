@@ -221,16 +221,18 @@ class Player(MPV):
         启动播放器
         '''
         if self.playlist_detail and self.playlist_ids:
-            song_info = self.playlist_detail.get(self.playlist_ids[self.playlist_index], None)
+            song_id = self.playlist_ids[self.playlist_index]
+            song_info = self.playlist_detail.get(song_id, {})
             if not song_info:
-                # @TODO add logger
+                mell_logger.error('Can not get song_info, song_id: %s' % song_id)
                 pass
             song_url = song_info.get('song_url', None)
             if not song_url:
-                # @TODO add logger
-                pass
-            self.play(song_url)
-            self.show_song_info()
+                mell_logger.error('Can not get song_url, song_id: %s' % song_id)
+                self.next_song()
+            else:
+                self.play(song_url)
+                self.show_song_info()
 
 
     # ===========================
