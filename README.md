@@ -5,6 +5,8 @@
 
 A tiny terminal player of NetEase-Music based on Python3.
 
+![](document/mellplayer_tutorial.gif)
+
 ## Support
 OSX / Linux (Linux is not tested)
 
