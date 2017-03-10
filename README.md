@@ -17,7 +17,7 @@ Using [pip](https://pip.pypa.io/en/stable/)
 ```
 
 ## Additional Mac OSX Installation notes
-Install mpv with [Homebrew](https://brew.sh/) , because MellPlayer depends on mpv player.
+Install mpv with [Homebrew](https://brew.sh/)
 ```bash
 brew install mpv
 ```
