@@ -225,7 +225,7 @@ HELP_LINES = {
     'help_space_3':    '',
     'control_volume':  '音量',
     'reduce_volume':   '[-]     [Reduce Volume]     --->  减小音量',
-    'increase_volume': '[=]     [Increase Volume    --->  增加音量',
+    'increase_volume': '[=]     [Increase Volume]   --->  增加音量',
     'mute':            '[m]     [Mute]              --->  静音',
     'help_space_4': '',
     'control_lyric': '歌词',
