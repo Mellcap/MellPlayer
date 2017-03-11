@@ -97,7 +97,9 @@ MellPlayer的初版刚刚发布，还有许许多多需要改进的地方，非�
 
 ### <a name="About Repo_cn"></a>关于项目
 项目地址：[MellPlayer](https://github.com/Mellcap/MellPlayer)
+
 项目基于python3开发，依赖mpv。还有很多地方需要优化改进，大家发现什么问题可以给我提Issue，当然非常欢迎有兴趣的朋友加入，一起打造我们喜欢的播放器。
+
 既然看到这儿了，就来 [Star](https://github.com/Mellcap/MellPlayer) 一下， 互相 [Follow](https://github.com/Mellcap) 一下吧哈哈！！！
 
 #### <a name="Support_cn"></a>支持
