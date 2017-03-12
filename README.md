@@ -12,6 +12,7 @@ A tiny terminal player of NetEase-Music based on Python3.
 	- [Support](#Support)
 	- [Installation](#Installation)
 	- [Additional Mac OSX Installation notes](#Additional Mac OSX Installation notes)
+	- [Additional Ubuntu Installation notes](#Additional Ubuntu Installation notes)
 	- [Upgrading](#Upgrading)
 	- [Usage](#Usage)
 	- [Keys](#Keys)
@@ -22,6 +23,7 @@ A tiny terminal player of NetEase-Music based on Python3.
 	- [支持](#Support_cn)
 	- [安装](#Installation_cn)
 	- [Mac OSX 安装依赖](#Additional Mac OSX Installation notes_cn)
+	- [Ubuntu 安装依赖](#Additional Ubuntu Installation notes_cn)
 	- [更新](#Upgrading_cn)
 	- [使用](#Usage_cn)
 	- [快捷键](#Keys_cn)
@@ -41,6 +43,13 @@ Using [pip](https://pip.pypa.io/en/stable/)
 Install mpv with [Homebrew](https://brew.sh/)
 ```bash
 brew install mpv
+```
+
+### <a name="Additional Ubuntu Installation notes"></a>Additional Ubuntu Installation notes
+
+Install mpv with apt-get
+```bash
+sudo apt-get install libmpv-dev mpv
 ```
 
 ### <a name="Upgrading"></a>Upgrading
@@ -103,7 +112,7 @@ MellPlayer的初版刚刚发布，还有许许多多需要改进的地方，非�
 既然看到这儿了，就来 [Star](https://github.com/Mellcap/MellPlayer) 一下， 互相 [Follow](https://github.com/Mellcap) 一下吧哈哈！！！
 
 #### <a name="Support_cn"></a>支持
-OSX & Linux (Linux未经过测试)
+OSX & Linux
 
 ### <a name="Installation_cn"></a>安装
 通过 [pip3](https://pip.pypa.io/en/stable/) 安装
@@ -115,6 +124,12 @@ OSX & Linux (Linux未经过测试)
 通过 [Homebrew](https://brew.sh/) 安装 mpv
 ```bash
 brew install mpv
+```
+
+#### <a name="Additional Ubuntu Installation notes_cn"></a>Ubuntu 安装依赖
+通过 apt-get 安装 mpv
+```bash
+sudo apt-get install libmpv-dev mpv
 ```
 
 #### <a name="Upgrading_cn"></a>更新
