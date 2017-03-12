@@ -3,7 +3,7 @@
 ![https://pypi.python.org/pypi/MellPlayer/0.1.0](https://img.shields.io/badge/python-3.5,3.6-blue.svg)
 ![https://pypi.python.org/pypi/MellPlayer/0.1.0](https://img.shields.io/badge/license-MIT-blue.svg)
 
-A tiny terminal player of NetEase-Music based on Python3.
+A tiny terminal player based on Python3.
 
 ![](document/mellplayer_tutorial.gif)
 
