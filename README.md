@@ -31,7 +31,7 @@ A tiny terminal player based on Python3.
 ## <a name="English Tutorial"></a>English Tutorial
 
 ### <a name="Support"></a>Support
-OSX & Linux
+OSX & Linux (Linux still have some bugs)
 
 ### <a name="Installation"></a>Installation
 Using [pip](https://pip.pypa.io/en/stable/)
@@ -112,7 +112,7 @@ MellPlayer的初版刚刚发布，还有许许多多需要改进的地方，非�
 既然看到这儿了，就来 [Star](https://github.com/Mellcap/MellPlayer) 一下， 互相 [Follow](https://github.com/Mellcap) 一下吧哈哈！！！
 
 #### <a name="Support_cn"></a>支持
-OSX & Linux
+OSX & Linux (Linux 仍有些bug待修复)
 
 ### <a name="Installation_cn"></a>安装
 通过 [pip3](https://pip.pypa.io/en/stable/) 安装
