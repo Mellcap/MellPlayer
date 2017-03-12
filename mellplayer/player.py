@@ -40,6 +40,7 @@ class Player(MPV):
         self.song_br = 0
         self.lyric_id = 0
         self.is_quit = False
+        self.volume = 100
 
     # ===========================
     # Player Controller
