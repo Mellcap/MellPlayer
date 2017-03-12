@@ -49,7 +49,7 @@ brew install mpv
 
 Install mpv with apt-get
 ```bash
-sudo apt-get install mpv
+sudo apt-get install libmpv-dev mpv
 ```
 
 ### <a name="Upgrading"></a>Upgrading
@@ -129,7 +129,7 @@ brew install mpv
 #### <a name="Additional Ubuntu Installation notes_cn"></a>Ubuntu 安装依赖
 通过 apt-get 安装 mpv
 ```bash
-sudo apt-get install mpv
+sudo apt-get install libmpv-dev mpv
 ```
 
 #### <a name="Upgrading_cn"></a>更新
