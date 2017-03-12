@@ -31,7 +31,7 @@ A tiny terminal player of NetEase-Music based on Python3.
 ## <a name="English Tutorial"></a>English Tutorial
 
 ### <a name="Support"></a>Support
-OSX & Linux (Linux is not tested)
+OSX & Linux
 
 ### <a name="Installation"></a>Installation
 Using [pip](https://pip.pypa.io/en/stable/)
@@ -96,7 +96,7 @@ mellplayer
 ## <a name="Chinese Tutorial"></a>中文说明
 
 ### <a name="Preface_cn"></a>前言
-我写代码时非常喜欢听音乐，最近在网易云歌单中听到了许多入耳惊艳的歌，觉得非常不错。但是歌单的随机播放以及快速切换是个软肋，于是开发了MellPlayer，可以按照分类随机听歌，实现了歌单间的快速切换，希望大家能够喜欢。
+我写代码时非常喜欢听音乐，最近在歌单中听到了许多入耳惊艳的歌，觉得非常不错。但是歌单的随机播放以及快速切换是个软肋，于是开发了MellPlayer，可以按照分类随机听歌，实现了歌单间的快速切换，希望大家能够喜欢。
 
 ### <a name="Develop idea_cn"></a>开发理念
 MellPlayer的初版刚刚发布，还有许许多多需要改进的地方，非常希望能有志同道合的朋友Fork下来，一起打造越来越完美的播放器，下面就说下我的开发理念：

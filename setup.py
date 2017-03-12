@@ -30,6 +30,6 @@ setup(
     author='Mellcap',
     author_email='imellcap@gmail.com',
     url='https://github.com/Mellcap/MellPlayer',
-    description='A tiny terminal player of NetEase-Music based on Python',
-    keywords=['mellplayer', 'terminal', 'netease', 'playlist', 'music', 'cli', 'player'],
+    description='A tiny terminal player based on Python',
+    keywords=['mellplayer', 'terminal', 'playlist', 'music', 'cli', 'player'],
 )

@@ -65,9 +65,9 @@ class UI(object):
     
     def _get_base_title(self):
         player_name = '%s%s' % (BOLD_STR, self.gen_color('MellPlayer', 'blue'))
-        netease = self.gen_color('网易云音乐', 'red')
+        # netease = self.gen_color('网易云音乐', 'red')
         divider = self.gen_color(data=r'\\')
-        display_items = [player_name, netease]
+        display_items = [player_name]
         return (' %s ' % divider).join(display_items)
 
     def update_title(self, items=None):
