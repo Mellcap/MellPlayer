@@ -21,6 +21,7 @@ from mellplayer.deco import show_changing_text, show_song_info_text, update_titl
 from mellplayer.mell_logger import mell_logger
 
 PLAYLIST_MAX = 50
+DEFAULT_VOLUME = 100
 # PLAYLIST_FILE = os.path.join(BASE_DIRECTORY, 'playlist.m3u')
 NeteaseApi = Netease()
 UiEvent = UIEvent()
@@ -40,7 +41,6 @@ class Player(MPV):
         self.song_br = 0
         self.lyric_id = 0
         self.is_quit = False
-        self.volume = 100
 
     # ===========================
     # Player Controller
@@ -264,7 +264,7 @@ class Player(MPV):
         self.mute = not self.mute
 
     def get_volume(self):
-        return self.volume
+        return self.volume or DEFAULT_VOLUME
 
 
     # ===========================
