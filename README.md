@@ -15,7 +15,7 @@ A tiny terminal player based on Python3.
 	- [Additional Ubuntu Installation notes](#Additional Ubuntu Installation notes)
 	- [Upgrading](#Upgrading)
 	- [Usage](#Usage)
-        - [About Country Restriction](#About Country Restriction)
+   - [About Country Restriction](#About Country Restriction)
 	- [Keys](#Keys)
 * [中文说明](#Chinese Tutorial)
 	- [前言](#Preface_cn)
@@ -27,7 +27,7 @@ A tiny terminal player based on Python3.
 	- [Ubuntu 安装依赖](#Additional Ubuntu Installation notes_cn)
 	- [更新](#Upgrading_cn)
 	- [使用](#Usage_cn)
-        - [关于地区限制](#About Country Restriction_cn)
+   - [关于地区限制](#About Country Restriction_cn)
 	- [快捷键](#Keys_cn)
 
 ## <a name="English Tutorial"></a>English Tutorial
