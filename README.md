@@ -15,6 +15,7 @@ A tiny terminal player based on Python3.
 	- [Additional Ubuntu Installation notes](#Additional Ubuntu Installation notes)
 	- [Upgrading](#Upgrading)
 	- [Usage](#Usage)
+        - [About Country Restriction](#About Country Restriction)
 	- [Keys](#Keys)
 * [中文说明](#Chinese Tutorial)
 	- [前言](#Preface_cn)
@@ -26,6 +27,7 @@ A tiny terminal player based on Python3.
 	- [Ubuntu 安装依赖](#Additional Ubuntu Installation notes_cn)
 	- [更新](#Upgrading_cn)
 	- [使用](#Usage_cn)
+        - [关于地区限制](#About Country Restriction_cn)
 	- [快捷键](#Keys_cn)
 
 ## <a name="English Tutorial"></a>English Tutorial
@@ -46,8 +48,7 @@ brew install mpv
 ```
 
 ### <a name="Additional Ubuntu Installation notes"></a>Additional Ubuntu Installation notes
-
-Install mpv with apt-get
+Install mpv with apt-get (Ubuntu16.04 has been tested)
 ```bash
 sudo apt-get install libmpv-dev mpv
 ```
@@ -63,6 +64,9 @@ MellPlayer is run on the command line using the command:
 ```bash
 mellplayer
 ```
+
+### <a name="About Country Restriction"></a>About Country Restriction
+Because of the song API only supports the Chinese Mainland visit, or you may need to set the proxy yourself.
 
 ### <a name="Keys"></a>Keys
 ```
@@ -127,7 +131,7 @@ brew install mpv
 ```
 
 #### <a name="Additional Ubuntu Installation notes_cn"></a>Ubuntu 安装依赖
-通过 apt-get 安装 mpv
+通过 apt-get 安装 mpv (Ubuntu16.04已经过测试)
 ```bash
 sudo apt-get install libmpv-dev mpv
 ```
@@ -143,6 +147,9 @@ sudo apt-get install libmpv-dev mpv
 ```bash
 mellplayer
 ```
+
+### <a name="About Country Restriction_cn"></a>关于地区限制
+因为歌曲 API 只接受中国大陆地区访问，港澳台及海外用户请自行设置代理。
 
 #### <a name="Keys_cn"></a>快捷键
 ```
