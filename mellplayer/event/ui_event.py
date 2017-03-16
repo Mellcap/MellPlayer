@@ -22,6 +22,9 @@ class UIEvent(object):
     def handler_update_title(self, items):
         mell_ui.update_title(items)
 
+    def handler_show_error(self, err_msg):
+        mell_ui.display_center(text=err_msg)
+
     # ===========================
     # Lyric UI
     # ===========================
