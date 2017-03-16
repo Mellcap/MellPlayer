@@ -40,7 +40,6 @@ class Player(MPV):
         self.song_info = ''
         self.song_br = 0
         self.lyric_id = 0
-        self.error_song_count = 0
         self.is_quit = False
 
     # ===========================
@@ -111,9 +110,6 @@ class Player(MPV):
         self.category = new_category
         self.get_category_playlist_ids()
         self.run_playlist()
-
-    def initial_error_song_count(self):
-        self.error_song_count = 0
     
     # ===========================
     # Play Info
@@ -150,15 +146,21 @@ class Player(MPV):
         song_ids = self.playlist_ids
         data = NeteaseApi.song_detail_new(song_ids)
         song_details = NeteaseApi.parse_info(data=data, parse_type='song_detail_new')
-        for song_id in self.playlist_detail:
-            song_detail = song_details.get(song_id, None)
-            if not song_detail:
-                continue
-            song_info = {
-                'song_url': song_detail.get('song_url', None),
-                'song_br': song_detail.get('song_br', None)
-            }
-            self.playlist_detail[song_id].update(song_info)
+        song_urls = list(map(lambda x: x['song_url'], song_details.values()))
+        if not any(song_urls):
+            err_msg = 'Ooops! The song API only supports the Chinese Mainland visit...'
+            UiEvent.handler_show_error(err_msg)
+            self.terminate()
+        else:
+            for song_id in self.playlist_detail:
+                song_detail = song_details.get(song_id, None)
+                if not song_detail:
+                    continue
+                song_info = {
+                    'song_url': song_detail.get('song_url', None),
+                    'song_br': song_detail.get('song_br', None)
+                }
+                self.playlist_detail[song_id].update(song_info)
 
     def get_lyric_detail(self):
         '''
@@ -217,7 +219,6 @@ class Player(MPV):
         '''
         # initial playlist_index
         self.playlist_index = 0
-        self.initial_error_song_count()
         self.get_playlist()
         self.run_player()
 
@@ -235,13 +236,7 @@ class Player(MPV):
             song_url = song_info.get('song_url', None)
             if not song_url:
                 mell_logger.error('Can not get song_url, song_id: %s' % song_id)
-                self.error_song_count += 1
-                if self.error_song_count >= 5:
-                    # 在一个歌单中有5首以上歌曲无法获取url则认定为不在中国大陆-暂定
-                    err_msg = 'Ooops! The song API only supports the Chinese Mainland visit...'
-                    UiEvent.handler_show_error(err_msg)
-                else:
-                    self.next_song()
+                self.next_song()
             else:
                 self.play(song_url)
                 self.show_song_info()
