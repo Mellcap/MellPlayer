@@ -65,9 +65,9 @@ class UI(object):
     
     def _get_base_title(self):
         player_name = '%s%s' % (BOLD_STR, self.gen_color('MellPlayer', 'blue'))
-        # netease = self.gen_color('网易云音乐', 'red')
+        netease = self.gen_color('网易云音乐', 'red')
         divider = self.gen_color(data=r'\\')
-        display_items = [player_name]
+        display_items = [player_name, netease]
         return (' %s ' % divider).join(display_items)
 
     def update_title(self, items=None):
@@ -135,6 +135,17 @@ class UI(object):
         complete_info = [self.gen_color(data=p, color='yellow') for p in self.play_info]
         divider = self.gen_color(data='|', color='')
         return ('  %s  ' % divider).join(complete_info)
+
+    def display_center(self, text):
+        display_lines = ['\r']
+        display_title = '\n%s%s' % (' '*5, self.title)
+        display_lines.append(display_title)
+        blank_length = self.screen_height - BLANK_CONSTANT
+        blank_lines = [' ' for i in range(blank_length)]
+        blank_lines[int(blank_length / 2)] = str_center(string=text, screen_width=self.screen_width)
+        display_lines.extend(blank_lines)
+        display_lines = self.add_tail(source_list=display_lines, tail='\r')
+        print('\n'.join(display_lines) + '\r')
 
     # =====================
     # UI Controller
