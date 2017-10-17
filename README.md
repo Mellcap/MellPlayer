@@ -4,6 +4,7 @@
 ![https://pypi.python.org/pypi/MellPlayer/0.1.0](https://img.shields.io/badge/license-MIT-blue.svg)
 
 A tiny terminal player based on Python3.
+※The song API only supports the Chinese Mainland visit.
 
 ![](document/mellplayer_tutorial.gif)
 
